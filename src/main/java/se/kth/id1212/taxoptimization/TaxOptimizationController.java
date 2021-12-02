@@ -59,7 +59,7 @@ public class TaxOptimizationController {
         try{
             User user = new User(email, name, password);
             boolean test = user.userExists();
-            System.out.println(test + " " + email + " " + password + " " + name);
+            //System.out.println(test + " " + email + " " + password + " " + name);
         /*
             Takes user, pass, etc
             if(valid)
@@ -78,17 +78,30 @@ public class TaxOptimizationController {
             return "login";
         }
     }
+
+    /**
+     * The server retrieves from the post request the users input to calculate the new valuation of their funds.
+     * @param start_capital How much capital the user spent at their fund/stock
+     * @param profit_capital The current growth since purchase.
+     * @param interest_rate The estimated rate which the fund is expected to grow.
+     * @param years How many years ahead the user wants to let it grow.
+     * @param model The model for the HTML pages
+     * @return Returns the answer.html page with the calculated value.
+     * @throws Exception If something goes wrong.
+     */
     @PostMapping("/answer")
     public String answer(@RequestParam() int start_capital,
                          @RequestParam() int profit_capital,
                          @RequestParam() int interest_rate,
                          @RequestParam() int years,Model model) throws Exception {
-        model.addAttribute("amount", calculateDifference(start_capital, profit_capital, interest_rate, years));
+        model.addAttribute("amount", calculateGrowths(start_capital, profit_capital, interest_rate, years));
         return "answer";
     }
 
-    private double calculateDifference(int start_capital, int profit_capital, int interest_rate, int years){
-
+    private double calculateGrowths(int start_capital, int profit_capital, int interest_rate, int years){
+        double first = (start_capital + profit_capital)+((start_capital + profit_capital)*interest_rate*years)/100;
+        double afterTax = (first-start_capital)*0.7+start_capital;
+        double second = (start_capital + profit_capital*0.7)+((start_capital + profit_capital*0.7)*interest_rate*years)/100;
         return (start_capital + profit_capital)+((start_capital + profit_capital)*interest_rate*years)/100;
     }
 }

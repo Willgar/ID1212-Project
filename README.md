@@ -3,7 +3,8 @@ A Calculator to optimize and reduce tax for moving funds between a Swedish Fund 
 ![ID1212  (1)](https://user-images.githubusercontent.com/28623935/144249133-52ce1d19-87b2-4437-8434-25e95798353b.png)
 
 # SQL Code
-Code to create the tables in the Schema 'project' for MySQL.
+Code to create the tables in the Schema 'project' for MySQL. 
+Add a file namned SECRETS.java to to folder ./src/main/java/se.kth.id1212.taxoptimization/model containing two private static String named DATABASEUSER and DATABASEPASS adjusted after your own MySQL server.
 
 CREATE TABLE `User` (
 	`email` varchar(255) NOT NULL,
