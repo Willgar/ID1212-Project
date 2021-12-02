@@ -31,7 +31,8 @@ public class Session {
             int start_capital = rs.getInt(2);
             int profit_capital = rs.getInt(3);
             int interest_rate = rs.getInt(4);
-            inputs.add(new Input(input_id, start_capital, profit_capital,interest_rate));
+            int years = rs.getInt(5);
+            inputs.add(new Input(input_id, start_capital, profit_capital,interest_rate, years));
         }
     }
 }

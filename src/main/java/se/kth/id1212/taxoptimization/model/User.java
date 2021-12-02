@@ -26,27 +26,37 @@ public class User {
      *  creates a new user.
      * @return True if user exists, false if it did not.
      */
-    public boolean userExists(){
+    public boolean userExists() throws SQLException, ClassNotFoundException {
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/project" , SECRETS.DATABASEUSER,  SECRETS.DATABASEPASS);
             Statement stmt=con.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT email, password FROM User WHERE email='"+this.email+"' AND password='"+this.password +"';");
-            if(rs.next()) {
+            ResultSet rs = stmt.executeQuery("SELECT email, password FROM User WHERE email='"+this.email+"';");
+            rs.next();
+            String password = rs.getString(2);
+            System.out.println(password + " and " + this.password);
+            if(password.equals(this.password)) {
+                System.out.println("hello");
                 return true;
             }
             else {
-                String query = " INSERT INTO User (email, name, password)" + " values (?,?,?)";
-                PreparedStatement prep = con.prepareStatement(query);
-                prep.setString(1, this.email);
-                prep.setString(2, this.name);
-                prep.setString(3, this.password);
-                prep.execute();
-                con.close();
-                return false;
+                System.out.println("hello2");
+
+                return false;   //Email exists but password did not match
             }
         } catch (Exception e){
             System.out.println(e);
+            try {
+                Class.forName("com.mysql.cj.jdbc.Driver");
+                Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/project", SECRETS.DATABASEUSER, SECRETS.DATABASEPASS);
+                String query = " INSERT INTO User (email, name, password)" + " values (?,?,?)";
+                PreparedStatement prep = con.prepareStatement(query);
+                prep.setString(0, this.email);
+                prep.setString(1, this.name);
+                prep.setString(2, this.password);
+                prep.execute();
+                con.close();
+            } catch(Exception e2){return false;}
             return false;
         }
     }

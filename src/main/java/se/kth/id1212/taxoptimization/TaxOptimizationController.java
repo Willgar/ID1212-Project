@@ -78,4 +78,17 @@ public class TaxOptimizationController {
             return "login";
         }
     }
+    @PostMapping("/answer")
+    public String answer(@RequestParam() int start_capital,
+                         @RequestParam() int profit_capital,
+                         @RequestParam() int interest_rate,
+                         @RequestParam() int years,Model model) throws Exception {
+        model.addAttribute("amount", calculateDifference(start_capital, profit_capital, interest_rate, years));
+        return "answer";
+    }
+
+    private double calculateDifference(int start_capital, int profit_capital, int interest_rate, int years){
+
+        return (start_capital + profit_capital)+((start_capital + profit_capital)*interest_rate*years)/100;
+    }
 }
