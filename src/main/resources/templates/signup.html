@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Swedish Fund Account to ISK Tax Calculator</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<h3>Login Page</h3>
+<form action="calculator/signedup" method="post">
+    <label for="email">Email:</label><br />
+    <input type="text" id="email" name="email" /><br /><br />
+
+    <label for="firstname">First Name:</label><br />
+    <input type="text" id="firstname" name="firstname" /> <br />
+
+    <label for="lastname">Last Name:</label><br />
+    <input type="text" id="lastname" name="lastname" /> <br />
+
+    <label for="passw">Password:</label><br />
+    <input type="password" id="passw" name="password" /> <br />
+
+    <label for="country">Country:</label><br />
+    <input type="country" id="country" name="country" /> <br />
+
+    <label for="city">City:</label><br />
+    <input type="text" id="city" name="city" /> <br />
+
+    <label for="phone">Phone Number:</label><br />
+    <input type="number" id="phone" name="phone" /> <br />
+
+    <label for="gender">Gender:</label><br />
+    <input type="text" id="gender" name="gender" /> <br />
+
+    <label for="subscribe">subscribe?:</label><br />
+    <input type="text" id="subscribe" name="subscribe" /> <br />
+
+
+    <p> kan man gömma password/hasha den direkt i post</p>
+    <input type="submit" value="Start" />
+</form>
+</body>
+</html>
