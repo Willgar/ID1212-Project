@@ -69,7 +69,7 @@ public class Input {
         this.interest_rate = interest_rate;
         this.desired_payments = desired_payments;
         for(int i = 0; i < years; i++){
-            yearBasis.add(new YearBasis(i, yearly_value[i][0], yearly_value[i][1]));
+            yearBasis.add(new YearBasis(i, yearly_value[0][i], yearly_value[1][i],yearly_value[2][i], yearly_value[3][i]));
         }
 
     }
@@ -81,9 +81,28 @@ public class Input {
         int i = 0;
         for (YearBasis n : yearBasis) {
             int[] value = n.getCapital();
-            yearlyCapital[i][0] = value[0];
-            yearlyCapital[i][1] = value[1];
-            i++;
+            if(value.length < 3) {
+                yearlyCapital[i][0] = value[0];
+                yearlyCapital[i][1] = value[1];
+                i++;
+            }
+        }
+        return yearlyCapital;
+    }
+
+    public int[][] getYearlyCSNCapital(){
+        int[][] yearlyCapital = new int[4][yearBasis.size()];
+        int i = 0;
+        for (YearBasis n : yearBasis) {
+            int[] value = n.getCapital();
+            if(value.length > 2) {
+                yearlyCapital[0][i] = value[0];
+                yearlyCapital[1][i] = value[1];
+                yearlyCapital[2][i] = value[2];
+                yearlyCapital[3][i] = value[3];
+                i++;
+            }
+
         }
         return yearlyCapital;
     }

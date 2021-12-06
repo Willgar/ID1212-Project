@@ -60,6 +60,9 @@ public class User {
     public int[][] getYearlyCapital(){
         return this.sessions.get(sessions.size()-1).getYearlyCapital();
     }
+    public int[][] getYearlyCSNCapital() {
+        return this.sessions.get(sessions.size() - 1).getYearlyCSNCapital();
+    }
     public void createInput(int start_capital, int profit_capital, int interest_rate, int years, double yearly_value[][]){
         this.sessions.get(sessions.size()-1).updateInput(start_capital, profit_capital, interest_rate, years,yearly_value);
     }

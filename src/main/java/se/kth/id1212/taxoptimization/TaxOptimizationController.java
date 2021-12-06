@@ -126,28 +126,44 @@ public class TaxOptimizationController {
         model.addAttribute("yearly_value", user.getYearlyCapital());
         return "answer";
     }
+
+    /**
+     * The server retrieves from the post request the users input to calculate the differences between CSN payments.
+     * @param total_loan The total amount that is loaned.
+     * @param csn_interest_rate The estimated yearly interest rate for investments
+     * @param desired_payment How much above the minimum the users wants to pay towards the loan.
+     * @param model The model for the HTML pages.
+     * @return Returns the csnanswer.html page with the calculated values.
+     * @throws Exception If something goes wrong.
+     */
     @PostMapping("/csnanswer")
     public String answer(@RequestParam() int total_loan,
-                         @RequestParam() int interest_rate,
-                         @RequestParam() int desired_payments,Model model) throws Exception { ;
-
+                         @RequestParam() int csn_interest_rate,
+                         @RequestParam() int desired_payment,Model model) throws Exception { ;
+        user.createCSNInput(total_loan, csn_interest_rate, desired_payment);
+        model.addAttribute("yearly_value", user.getYearlyCSNCapital());
         return "csnanswer";
     }
+
+    /**
+     * The page for the user to sign up.
+     * @param model The model for the HTML pages.
+     * @return Returns the signup.html page.
+     */
     @GetMapping("/signup")
     public String signup(Model model){
         return "signup";
     }
+
+    /**
+     * Redirects the user to the login page if they receieve an error.
+     * @param model The model for the HTML pages.
+     * @return Returns the login.html page.
+     */
     @PostMapping("/error")
     public String error(Model model){
         return "login";
     }
-    private double calculateGrowths(int start_capital, int profit_capital, int interest_rate, int years){
-        double first = (start_capital + profit_capital)+((start_capital + profit_capital)*interest_rate*years)/100;
-        double afterTax = (first-start_capital)*0.7+start_capital;
-        double second = (start_capital + profit_capital*0.7)+((start_capital + profit_capital*0.7)*interest_rate*years)/100;
-        return (start_capital + profit_capital)+((start_capital + profit_capital)*interest_rate*years)/100;
-    }
-
 
     private void calculateFundToISK(int start_capital, int profit_capital, int interest_rate, int years){
 
