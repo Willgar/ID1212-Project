@@ -3,38 +3,146 @@
 <head>
     <meta charset="UTF-8">
     <title>Swedish Fund Account to ISK Tax Calculator</title>
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+            background-color: darkseagreen;
+            font-family: Menlo;
+            height:100vh;
+            overflow: hidden;
+            background: linear-gradient(180deg,lightskyblue,midnightblue);
+        }
+        .wrapper{
+            position: absolute;
+            top: 50%;
+            left:50%;n
+            transform: translate(-50%,-50%);
+            width: 400px;
+            background-color: floralwhite;
+            border-radius: 20px;
+
+        }
+        .outer h3{
+            text-align: center;
+            padding: 0 0 20px 0;
+            border-bottom: 1px solid gray;
+        }
+        .outer form{
+            padding: 0 40px;
+            box-sizing: border-box;
+        }
+
+        form .txt_field{
+            position: relative;
+            border-bottom: 2px solid #2691d9;
+            margin: 30px 0;
+        }
+        .txt_field input{
+            width: 100%;
+            padding:0 5px;
+            height: 40px;
+            font-size: 16px;
+            border: none;
+            background: none;
+            outline: none;
+        }
+        .txt_field label{
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 16px;
+            pointer-events: none;
+            color:gray;
+        }
+        .txt_field span::before{
+            content: '';
+            position: absolute;
+            top:40px;
+            width: 100%;
+            height: 2px;
+            left:0;
+            background: #2691d9;
+            transition: .5s;
+        }
+        .txt_field input:focus ~label,.txt_field input:valid ~label{
+            top:-5px;
+            color:#2691d9;
+        }
+        .txt_field input:focus ~ span::before,
+        .txt_field input:valid ~ span::before{
+            width: 100%;
+        }
+        .button{
+            margin:30px 0;
+            text-align: center;
+            font-size: 18px;
+            color:floralwhite;
+            width: 100%;
+            height: 40px;
+            border: 1px solid;
+            background: steelblue;
+            border-radius: 25px;
+            font-weight: 700;
+        }
+        .button:hover{
+            background-color: midnightblue;
+        }
+    </style>
 </head>
 <body>
-<h3>Calculator Page</h3>
-<div>
-    <form action="answer" method="post">
-        <label for="start_capital">Start Capital:</label><br />
-        <input type="number" id="start_capital" name="start_capital" /> <br />
-        <label for="profit_capital">Profit:</label><br />
-        <input type="number" id="profit_capital" name="profit_capital" /> <br />
-        <label for="interest_rate">How much interest? average är 7?</label><br />
-        <input type="number" id="interest_rate" name="interest_rate" /><br /><br />
-        <label for="years">How many years?</label><br />
-        <input type="number" id="years" name="years" /><br /><br />
-        <input type="submit" value="Start" />
-    </form>
-    todo: add input for start capital, profit capital, interest rate och antal år
-    maybe add sliders?
-    and button to submit
-    något snyggt för att visa upp resultaten, typ sida vid sida graf där man jämför ökningen samt visar skillnaden i slutändan
-    kanske en ny html sida för att visa upp resultaten?
-</div>
-<div>
-    <form action="csnanswer" method="post">
-        <label for="total_loan">Total Loan:</label><br />
-        <input type="number" id="total_loan" name="total_loan" /> <br />
-        <label for="csn_interest_rate">How much interest? Average is 7</label><br />
-        <input type="number" id="csn_interest_rate" name="csn_interest_rate" /><br /><br />
-        <label for="desired_payment">What would be your desired payment over the minimum?</label><br />
-        <input type="number" id="desired_payment" name="desired_payment" /><br /><br />
-        <input type="submit" value="Start" />
-    </form>
+<div class="wrapper">
+    <h3>Calculator Page</h3>
+    <div class="left">
+        <form action="answer" method="post">
+            <div class="txt_field">
+                <input type="number" id="start_capital" name="start_capital" />
+                <label for="start_capital">Start Capital:</label>
+            </div>
+            <div class="txt_field">
+                <input type="number" id="profit_capital" name="profit_capital" />
+                <label for="profit_capital">Profit:</label>
+            </div>
+            <div class="txt_field">
+                <input type="number" id="interest_rate" name="interest_rate" />
+                <label for="interest_rate">How much interest? average är 7?</label>
+            </div>
+            <div class="txt_field">
+                <input type="number" id="years" name="years" />
+                <label for="years">How many years?</label>
+            </div>
+            <input type="submit" value="Start" class="button"/>
+        </form>
+        <! ---
+        todo: add input for start capital, profit capital, interest rate och antal år
+        maybe add sliders?
+        and button to submit
+        något snyggt för att visa upp resultaten, typ sida vid sida graf där man jämför ökningen samt visar skillnaden i slutändan
+        kanske en ny html sida för att visa upp resultaten?
+        kan man gömma password/hasha den direkt i post
+        --->
 
+
+    </div>
+    <div class="right">
+        <form action="csnanswer" method="post">
+            <div class="txt_field">
+                <input type="number" id="total_loan" name="total_loan" /> <br />
+                <label for="total_loan">Total Loan:</label><br />
+
+            </div>
+            <div class="txt_field">
+                <input type="number" id="csn_interest_rate" name="csn_interest_rate" /><br /><br />
+                <label for="csn_interest_rate">How much interest? Average is 7</label><br />
+
+            </div>
+            <div class="txt_field">
+                <input type="number" id="desired_payment" name="desired_payment" /><br /><br />
+                <label for="desired_payment">What would be your desired payment over the minimum?</label><br />
+            </div>
+            <input type="submit" value="Start" class="button"/>
+        </form>
+    </div>
 </div>
 </body>
 </html>

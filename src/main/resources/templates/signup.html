@@ -3,21 +3,22 @@
 <head>
     <title>Swedish Fund Account to ISK Tax Calculator</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <style>
         body{
             margin: 0;
             padding: 0;
-            background-color: darkseagreen;
+            overscroll-behavior-y: none;
+            background-color: white;
             font-family: Menlo;
             height:100vh;
-            overflow: hidden;
-            background: linear-gradient(180deg,lightskyblue,midnightblue);
+            background-image: linear-gradient(180deg,lightskyblue,midnightblue);
+            background-attachment:fixed
         }
         .outer{
-            position: absolute;
-            top: 50%;
-            left:50%;
-            transform: translate(-50%,-50%);
+            margin: 0 auto;
+            padding:10px 0 0 0;
             width: 400px;
             background-color: floralwhite;
             border-radius: 20px;
@@ -25,17 +26,19 @@
         }
         .outer h3{
             text-align: center;
-            padding: 0 0 20px 0;
+            padding: 0 0 10px 0;
             border-bottom: 1px solid gray;
+            margin-top: 5px;
         }
         .outer form{
+            overflow: hidden;
             padding: 0 40px;
             box-sizing: border-box;
         }
 
         form .txt_field{
             position: relative;
-            border-bottom: 2px solid gray;
+            border-bottom: 2px solid #2691d9;
             margin: 30px 0;
         }
         .txt_field input{
@@ -50,12 +53,31 @@
         .txt_field label{
             position: absolute;
             top: 50%;
-            transform: translateY(50%);
+            left:5px;
+            transform: translateY(-50%);
             font-size: 16px;
+            margin-bottom: 10px;
             pointer-events: none;
             color:gray;
         }
-
+        .txt_field span::before{
+            content: '';
+            position: absolute;
+            top:40px;
+            width: 100%;
+            height: 2px;
+            left:0;
+            background: #2691d9;
+            transition: .5s;
+        }
+        .txt_field input:focus ~label,.txt_field input:valid ~label{
+            top:-5px;
+            color:#2691d9;
+        }
+        .txt_field input:focus ~ span::before,
+        .txt_field input:valid ~ span::before{
+            width: 100%;
+        }
         .button{
             margin:30px 0;
             text-align: center;
@@ -68,7 +90,26 @@
             border-radius: 25px;
             font-weight: 700;
         }
+        .button:hover{
+            background-color: rgba(0,0,255,0.4);
+        }
+        .link{
+            margin-top: 20px;
+        }
+        #select{
+            padding-bottom: 10px;
+        }
+        select{
+            border-radius: 25px;
+            margin-left:80px;
+            padding: 5px;
+            margin-bottom: 10px;
+        }
 
+        #subscribe{
+            height: 20px;
+            width: 20px;
+        }
     </style>
 </head>
 <body>
@@ -76,44 +117,56 @@
     <h3>Signup</h3>
     <form action="calculator/signedup" method="post">
         <div class="txt_field">
-            <label for="email">Email:</label><br />
-            <input type="text" id="email" name="email" required/><br /><br />
+            <input type="text" id="email" name="email" required/>
+            <span></span>
+            <label for="email">Email:</label>
         </div>
         <div class="txt_field">
-            <label for="firstname">First Name:</label><br />
-            <input type="text" id="firstname" name="firstname" required/> <br />
+            <input type="text" id="firstname" name="firstname" required/>
+            <span></span>
+            <label for="firstname">First Name:</label>
         </div>
         <div class="txt_field">
-            <label for="lastname">Last Name:</label><br />
-            <input type="text" id="lastname" name="lastname" required/> <br />
+            <input type="text" id="lastname" name="lastname" required/>
+            <span></span>
+            <label for="lastname">Last Name:</label>
         </div>
         <div class="txt_field">
-            <label for="passw">Password:</label><br />
-            <input type="password" id="passw" name="password" required/> <br />
+            <input type="password" id="passw" name="password" required/>
+            <span></span>
+            <label for="passw">Password:</label>
         </div>
         <div class="txt_field">
-            <label for="country">Country:</label><br />
-            <input type="country" id="country" name="country" required /> <br />
+            <input type="country" id="country" name="country" required />
+            <span></span>
+            <label for="country">Country:</label>
         </div>
         <div class="txt_field">
-            <label for="city">City:</label><br />
-            <input type="text" id="city" name="city" required/> <br />
+            <input type="text" id="city" name="city" required/>
+            <span></span>
+            <label for="city">City:</label>
         </div>
         <div class="txt_field">
-            <label for="phone">Phone Number:</label><br />
-            <input type="number" id="phone" name="phone" /> <br />
+            <input type="number" id="phone" name="phone" required/>
+            <span></span>
+            <label for="phone">Phone Number:</label>
         </div>
         <div class="txt_field">
-            <label for="gender">Gender:</label><br />
-            <input type="text" id="gender" name="gender" /> <br />
+            <label for="gender" id="select">Gender:</label>
+            <select name="gender" id="gender" required>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+            </select>
         </div>
         <div>
-            <label for="subscribe">subscribe?:</label><br />
-            <input type="checkbox" id="subscribe" name="subscribe" /> <br />
+            <label for="subscribe">Subscribe:</label>
+            <input type="checkbox" id="subscribe" name="subscribe" />
         </div>
-        <p> kan man gömma password/hasha den direkt i post</p>
-        <p>Already have an account? </p> <button href="/login">login</button>
-        <input type="submit" value="Start" class="button"/>
+        <div class="link">
+            <a href="/">Already have an account? </a>
+        </div>
+        <input type="submit" value="Sign up" class="button"/>
     </form>
 </div>
 </body>
