@@ -19,5 +19,4 @@ public class TaxOptimizationApplication {
     public static void main(String[] args) {
         SpringApplication.run(TaxOptimizationApplication.class, args);
     }
-
 }
