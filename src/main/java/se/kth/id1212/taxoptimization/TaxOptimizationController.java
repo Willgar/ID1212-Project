@@ -30,7 +30,7 @@ public class TaxOptimizationController {
      * @return Returns the login.html page
      * @throws Exception If something goes wrong.
      */
-    @GetMapping({"/", "/error", "/calculator"})
+    @RequestMapping({"/", "/error", "/calculator"})
     public String login(Model model) throws Exception {
         return "login";
     }
@@ -123,14 +123,21 @@ public class TaxOptimizationController {
                          @RequestParam() int years,Model model) throws Exception {
         calculateFundToISK(start_capital, profit_capital, interest_rate, years);
         model.addAttribute("amount", user.getValue());
+        model.addAttribute("yearly_value", user.getYearlyCapital());
         return "answer";
     }
+    @PostMapping("/csnanswer")
+    public String answer(@RequestParam() int total_loan,
+                         @RequestParam() int interest_rate,
+                         @RequestParam() int desired_payments,Model model) throws Exception { ;
 
+        return "csnanswer";
+    }
     @GetMapping("/signup")
     public String signup(Model model){
         return "signup";
     }
-    @GetMapping("/error")
+    @PostMapping("/error")
     public String error(Model model){
         return "login";
     }

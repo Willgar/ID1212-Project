@@ -63,7 +63,9 @@ public class User {
     public void createInput(int start_capital, int profit_capital, int interest_rate, int years, double yearly_value[][]){
         this.sessions.get(sessions.size()-1).updateInput(start_capital, profit_capital, interest_rate, years,yearly_value);
     }
-
+    public void createCSNInput(int total_loan, int interest_rate, int desired_payments ){
+        this.sessions.get(sessions.size()-1).updateCSNInput(total_loan, interest_rate, desired_payments);
+    }
 
 
 

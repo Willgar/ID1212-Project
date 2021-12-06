@@ -24,8 +24,10 @@ public class Input {
     int fund_account_capital = 0;
     int ISK_account_capital = 0;
     int account_difference;
+
+    int total_loan; int estimated_years; int max_years; int average_years; int desired_payments;
     List<YearBasis> yearBasis = new ArrayList<>();
-    public Input(int start_capital, int profit_capital, int interest_rate, int years,int fund_account_capital, double yearly_value[][],boolean flag){
+ /*   public Input(int start_capital, int profit_capital, int interest_rate, int years,int fund_account_capital, double yearly_value[][],boolean flag){
         this.start_capital = start_capital;
         this.profit_capital = profit_capital;
         this.interest_rate = interest_rate;
@@ -44,7 +46,7 @@ public class Input {
         if(this.fund_account_capital != 0){
             this.account_difference = Math.abs(this.ISK_account_capital - this.fund_account_capital);
         }
-    }
+    }*/
     public Input(int start_capital, int profit_capital, int interest_rate, int years, double yearly_value[][]){
         this.start_capital = start_capital;
         this.profit_capital = profit_capital;
@@ -56,6 +58,18 @@ public class Input {
 
         for(int i = 0; i < years; i++){
             yearBasis.add(new YearBasis(i, (int)yearly_value[i][0], (int)yearly_value[i][1]));
+        }
+    }
+
+    public Input(int total_loan, int estimated_years, int max_years, int average_years, int interest_rate, int desired_payments, int yearly_value[][]){
+        this.total_loan = total_loan;
+        this.estimated_years = estimated_years;
+        this.max_years = max_years;
+        this.average_years = average_years;
+        this.interest_rate = interest_rate;
+        this.desired_payments = desired_payments;
+        for(int i = 0; i < years; i++){
+            yearBasis.add(new YearBasis(i, yearly_value[i][0], yearly_value[i][1]));
         }
 
     }

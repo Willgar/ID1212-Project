@@ -24,6 +24,22 @@ public class Session {
     public void updateInput(int start_capital, int profit_capital, int interest_rate, int years, double yearly_value[][]){
         this.inputs.add(new Input(start_capital, profit_capital, interest_rate, years, yearly_value));
     }
+    public void updateCSNInput(int total_loan, int interest_rate, int desired_payments){
+
+        double start = total_loan*(0.035);
+        double yearly_value[][] = new double[25][2];
+        int sum = 0;
+
+        while(sum < total_loan){
+            
+        }
+
+
+
+
+
+
+    }
 
     public double getValue(){
         return this.inputs.get(inputs.size()-1).getValue();

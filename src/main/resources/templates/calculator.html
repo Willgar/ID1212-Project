@@ -6,21 +6,35 @@
 </head>
 <body>
 <h3>Calculator Page</h3>
-<form action="answer" method="post">
-    <label for="start_capital">Start Capital:</label><br />
-    <input type="number" id="start_capital" name="start_capital" /> <br />
-    <label for="profit_capital">Profit:</label><br />
-    <input type="number" id="profit_capital" name="profit_capital" /> <br />
-    <label for="interest_rate">How much interest? average är 7?</label><br />
-    <input type="number" id="interest_rate" name="interest_rate" /><br /><br />
-    <label for="years">How many years?</label><br />
-    <input type="number" id="years" name="years" /><br /><br />
-    <input type="submit" value="Start" />
-</form>
-todo: add input for start capital, profit capital, interest rate och antal år
-maybe add sliders?
-and button to submit
-något snyggt för att visa upp resultaten, typ sida vid sida graf där man jämför ökningen samt visar skillnaden i slutändan
-kanske en ny html sida för att visa upp resultaten?
+<div>
+    <form action="answer" method="post">
+        <label for="start_capital">Start Capital:</label><br />
+        <input type="number" id="start_capital" name="start_capital" /> <br />
+        <label for="profit_capital">Profit:</label><br />
+        <input type="number" id="profit_capital" name="profit_capital" /> <br />
+        <label for="interest_rate">How much interest? average är 7?</label><br />
+        <input type="number" id="interest_rate" name="interest_rate" /><br /><br />
+        <label for="years">How many years?</label><br />
+        <input type="number" id="years" name="years" /><br /><br />
+        <input type="submit" value="Start" />
+    </form>
+    todo: add input for start capital, profit capital, interest rate och antal år
+    maybe add sliders?
+    and button to submit
+    något snyggt för att visa upp resultaten, typ sida vid sida graf där man jämför ökningen samt visar skillnaden i slutändan
+    kanske en ny html sida för att visa upp resultaten?
+</div>
+<div>
+    <form action="csnanswer" method="post">
+        <label for="total_loan">Total Loan:</label><br />
+        <input type="number" id="total_loan" name="total_loan" /> <br />
+        <label for="csn_interest_rate">How much interest? Average is 7</label><br />
+        <input type="number" id="csn_interest_rate" name="csn_interest_rate" /><br /><br />
+        <label for="desired_payment">What would be your desired payment over the minimum?</label><br />
+        <input type="number" id="desired_payment" name="desired_payment" /><br /><br />
+        <input type="submit" value="Start" />
+    </form>
+
+</div>
 </body>
 </html>
