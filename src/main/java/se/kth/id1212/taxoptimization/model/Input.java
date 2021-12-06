@@ -27,26 +27,7 @@ public class Input {
 
     int total_loan; int estimated_years; int max_years; int average_years; int desired_payments;
     List<YearBasis> yearBasis = new ArrayList<>();
- /*   public Input(int start_capital, int profit_capital, int interest_rate, int years,int fund_account_capital, double yearly_value[][],boolean flag){
-        this.start_capital = start_capital;
-        this.profit_capital = profit_capital;
-        this.interest_rate = interest_rate;
-        this.years = years;
-        this.fund_account_capital = fund_account_capital;
-        if(this.ISK_account_capital != 0){
-            this.account_difference = Math.abs(this.ISK_account_capital - this.fund_account_capital);
-        }
-    }
-    public Input(int start_capital, int profit_capital, int interest_rate, int years, int ISK_account_capital){
-        this.start_capital = start_capital;
-        this.profit_capital = profit_capital;
-        this.interest_rate = interest_rate;
-        this.years = years;
-        this.ISK_account_capital = ISK_account_capital;
-        if(this.fund_account_capital != 0){
-            this.account_difference = Math.abs(this.ISK_account_capital - this.fund_account_capital);
-        }
-    }*/
+
     public Input(int start_capital, int profit_capital, int interest_rate, int years, double yearly_value[][]){
         this.start_capital = start_capital;
         this.profit_capital = profit_capital;
@@ -57,7 +38,7 @@ public class Input {
         this.account_difference = Math.abs(this.ISK_account_capital - this.fund_account_capital);
 
         for(int i = 0; i < years; i++){
-            yearBasis.add(new YearBasis(i, (int)yearly_value[i][0], (int)yearly_value[i][1]));
+            yearBasis.add(new YearBasis(i, (int)yearly_value[0][i], (int)yearly_value[1][i]));
         }
     }
 
@@ -68,6 +49,7 @@ public class Input {
         this.average_years = average_years;
         this.interest_rate = interest_rate;
         this.desired_payments = desired_payments;
+
         for(int i = 0; i < years; i++){
             yearBasis.add(new YearBasis(i, yearly_value[0][i], yearly_value[1][i],yearly_value[2][i], yearly_value[3][i]));
         }
@@ -77,15 +59,13 @@ public class Input {
         return fund_account_capital;
     }
     public int[][] getYearlyCapital(){
-        int[][] yearlyCapital = new int[yearBasis.size()][2];
+        int[][] yearlyCapital = new int[2][yearBasis.size()];
         int i = 0;
         for (YearBasis n : yearBasis) {
             int[] value = n.getCapital();
-            if(value.length < 3) {
-                yearlyCapital[i][0] = value[0];
-                yearlyCapital[i][1] = value[1];
-                i++;
-            }
+            yearlyCapital[0][i] = value[0];
+            yearlyCapital[1][i] = value[1];
+            i++;
         }
         return yearlyCapital;
     }
@@ -94,15 +74,12 @@ public class Input {
         int[][] yearlyCapital = new int[4][yearBasis.size()];
         int i = 0;
         for (YearBasis n : yearBasis) {
-            int[] value = n.getCapital();
-            if(value.length > 2) {
-                yearlyCapital[0][i] = value[0];
-                yearlyCapital[1][i] = value[1];
-                yearlyCapital[2][i] = value[2];
-                yearlyCapital[3][i] = value[3];
-                i++;
-            }
-
+            int[] value = n.getCSNCapital();
+            yearlyCapital[0][i] = value[0];
+            yearlyCapital[1][i] = value[1];
+            yearlyCapital[2][i] = value[2];
+            yearlyCapital[3][i] = value[3];
+            i++;
         }
         return yearlyCapital;
     }

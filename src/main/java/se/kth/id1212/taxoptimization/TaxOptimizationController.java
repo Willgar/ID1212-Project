@@ -169,16 +169,17 @@ public class TaxOptimizationController {
 
         double total_capital_ISK = (start_capital+profit_capital*0.7);
         double total_capital_fund = (start_capital+profit_capital);
-        double yearly_value[][] = new double[years][2];
+        double yearly_value[][] = new double[2][years];
         yearly_value[0][0] = total_capital_ISK;
-        yearly_value[0][1] = total_capital_fund;
+        yearly_value[1][0] = (total_capital_fund-start_capital)*0.7+start_capital;
         for(int i = 1; i < years; i++){
             total_capital_ISK = total_capital_ISK*((interest_rate/100.0f)+1)-(total_capital_ISK*0.00375);
-            yearly_value[i][0] = total_capital_ISK;
+            yearly_value[0][i] = total_capital_ISK;
             total_capital_fund = total_capital_fund*((interest_rate/100.0f)+1);
-            yearly_value[i][1] = total_capital_fund;
+            yearly_value[1][i] = (total_capital_fund-start_capital)*0.7+start_capital;
         }
-        yearly_value[length(yearly_value)-1][1] = (total_capital_fund-start_capital)*0.7+start_capital;
+        //yearly_value[1][length(yearly_value)-1] = (total_capital_fund-start_capital)*0.7+start_capital;
+       // yearly_value[0][length(yearly_value)-1] = (total_capital_fund-start_capital)*0.7+start_capital;
         this.user.createInput(start_capital, profit_capital, interest_rate, years, yearly_value);
     }
 }

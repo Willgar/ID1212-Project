@@ -28,5 +28,9 @@ public class YearBasis {
         int item[] = new int[]{ISK_capital, fund_account_capital};
         return item;
     }
+    public int[] getCSNCapital(){
+        int item[] = new int[]{yearly_average_minimum, yearly_profit, yearly_average_extra, years_from_start};
+        return item;
+    }
 
 }
