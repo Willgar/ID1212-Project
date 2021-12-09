@@ -4,52 +4,87 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>Swedish Fund Account to ISK Tax Calculator</title>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript">
+    <script type="text/javascript" th:inline="javascript">
         google.charts.load('current', {packages: ['corechart', 'bar']});
         google.charts.setOnLoadCallback(drawTitleSubtitle);
         //Gör om till data från Users getYearlyCapital där man jämflr ISK och Fund_account
         function drawTitleSubtitle() {
-            var data = new google.visualization.DataTable();
+            let data = new google.visualization.DataTable();
             data.addColumn('string', 'Year');
             data.addColumn('number', 'ISK');
             data.addColumn('number', 'Fund Account');
+            let theList = [[${yearly_value}]];
 
-            data.addRows([
-                ['2022', [[${yearly_value[0][0]}]], [[${yearly_value[0][1]}]]],
-                ['2023', [[${yearly_value[1][0]}]], [[${yearly_value[1][1]}]]],
-                ['2024', [[${yearly_value[2][0]}]], [[${yearly_value[2][1]}]]],
-                ['2025', [[${yearly_value[3][0]}]], [[${yearly_value[3][1]}]]],
-                ['2026', [[${yearly_value[4][0]}]], [[${yearly_value[4][1]}]]],
-                ['2027', [[${yearly_value[5][0]}]], [[${yearly_value[5][1]}]]],
-            ]);
+            for (let i = 0; i < theList[0].length; i++) {
+                data.addRow([(2021+i).toString(),theList[0][i],theList[1][i]]);
+            };
 
-            /*var options = {
+            let options = {
+                fontName:'Verdana',
                 chart: {
-                    title: 'Motivation and Energy Level Throughout the Day',
-                    subtitle: 'Based on a scale of 1 to 10'
+                    titlePosition: 'none',
+                    backgroundColor: '#fffaf0',
+
                 },
                 hAxis: {
-                    title: 'Time of Day',
-                    format: 'h:mm a',
-                    viewWindow: {
-                        min: [7, 30, 0],
-                        max: [17, 30, 0]
-                    }
+                    title: 'Years',
                 },
                 vAxis: {
-                    title: 'Rating (scale of 1-10)'
+                    title: 'Money saved'
+                },
+                backgroundColor: '#fffaf0',
+                'chartArea': {
+                    'backgroundColor': {
+                        'fill': '#fffaf0',
+                        'opacity': 100
+                    },
                 }
             };
-*/
-            var materialChart = new google.charts.Bar(document.getElementById('chart_div'));
-            materialChart.draw(data/*, options*/);
+            let materialChart = new google.charts.Bar(document.getElementById('chart_div'));
+            materialChart.draw(data, google.charts.Bar.convertOptions(options));
 
+            //Calculation for the savings when moved to isk from fond
+            var span = document.getElementById("diff");
+            span.appendChild( document.createTextNode(theList[0].at(-1)-theList[1].at(-1)));
         }
     </script>
+    <style>
+
+        body{
+            background: linear-gradient(180deg,lightskyblue,midnightblue);
+            font-family: Verdana;
+            overflow: hidden;
+            height: 100vh;
+        }
+        .wrapper{
+            padding: 25px;
+            width:75%;
+            border-radius: 25px;
+            margin: 0;
+            list-style: none;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            -webkit-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+            background-color: #fffaf0;
+            align-items: center;
+        }
+            .wrapper h3{
+                text-align: center;
+            }
+    </style>
 </head>
 <body>
 <!--p th:text="${amount}"></p>-->
-<div id="chart_div"></div>
+<div class="wrapper">
+    <h3>Calculation </h3>
+    <div>
+        <h3 >Saved from moving to ISK: <span id="diff"></span> </h3>
+    </div>
+    <h3>Comparing saving with ISK or Fund Account</h3>
+    <div id="chart_div"></div>
+</div>
 
 </body>
 </html>
