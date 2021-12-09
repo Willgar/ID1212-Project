@@ -142,6 +142,11 @@ public class TaxOptimizationController {
                          @RequestParam() int desired_payment,Model model) throws Exception { ;
         user.createCSNInput(total_loan, csn_interest_rate, desired_payment);
         model.addAttribute("yearly_value", user.getYearlyCSNCapital());
+        int yearly_value[][] = user.getYearlyCSNCapital();
+        for(int i = 0; i < yearly_value[0].length; i++){
+            model.addAttribute("yearly_value0"+Integer.toString(i), yearly_value[0][i]);
+            model.addAttribute("yearly_value1"+Integer.toString(i), yearly_value[0][i]);
+        }
         return "csnanswer";
     }
 
