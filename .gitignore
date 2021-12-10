@@ -3,8 +3,11 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
-SECRETS.java
 
+Dockerfile
+out/
+src/main/resources/META-INF/
+SECRETS.java
 ### STS ###
 .apt_generated
 .classpath
