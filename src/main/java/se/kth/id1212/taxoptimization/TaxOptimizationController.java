@@ -7,6 +7,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import se.kth.id1212.taxoptimization.model.User;
 
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.sql.SQLException;
 import java.util.Random;
 
@@ -121,6 +125,14 @@ public class TaxOptimizationController {
                          @RequestParam() int profit_capital,
                          @RequestParam() int interest_rate,
                          @RequestParam() int years,Model model) throws Exception {
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:3000/tax/?start_capital="+start_capital+"&profit_capital="+profit_capital+"&years="+years+"&interest_rate=+"+interest_rate))
+                .build();
+        HttpResponse<String> response =
+                client.send(request, HttpResponse.BodyHandlers.ofString());
+        System.out.println(response.body());
+
         calculateFundToISK(start_capital, profit_capital, interest_rate, years);
         model.addAttribute("amount", user.getValue());
         model.addAttribute("yearly_value", user.getYearlyCapital());
