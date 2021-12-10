@@ -12,6 +12,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.Random;
 
 import static org.thymeleaf.util.ArrayUtils.length;
@@ -125,15 +126,37 @@ public class TaxOptimizationController {
                          @RequestParam() int profit_capital,
                          @RequestParam() int interest_rate,
                          @RequestParam() int years,Model model) throws Exception {
-        HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:3000/tax/?start_capital="+start_capital+"&profit_capital="+profit_capital+"&years="+years+"&interest_rate=+"+interest_rate))
-                .build();
-        HttpResponse<String> response =
-                client.send(request, HttpResponse.BodyHandlers.ofString());
-        System.out.println(response.body());
-
-        calculateFundToISK(start_capital, profit_capital, interest_rate, years);
+        try { //Connects to a local API server to make the calculations
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create("http://localhost:3000/tax/?start_capital=" + start_capital + "&profit_capital=" + profit_capital + "&years=" + years + "&interest_rate=+" + interest_rate))
+                    .build();
+            HttpResponse<String> response =
+                    client.send(request, HttpResponse.BodyHandlers.ofString());
+            //Parses the JSON response with Regex
+            String regex[] = response.body().split("\\[");
+            String[] isk = regex[1].split(",");
+            isk = Arrays.copyOf(isk, isk.length - 1);
+            String[] fund = regex[2].split(",");
+            double yearly_value[][] = new double[2][years];
+            int i = 0;
+            for (String s : isk) {
+                s = s.replace("]", "");
+                yearly_value[0][i] = Double.parseDouble(s);
+                i++;
+            }
+            i = 0;
+            for (String s : fund) {
+                s = s.replace("]}", "");
+                yearly_value[1][i] = Double.parseDouble(s);
+                i++;
+            }
+            this.user.createInput(start_capital, profit_capital, interest_rate, years, yearly_value);
+            System.out.println("Input created with API server");
+        } catch(Exception e){ //If it fails, then we use the backup method ( Overly complicated but for grading reasons )
+            calculateFundToISK(start_capital, profit_capital, interest_rate, years);
+            System.out.println("Input created locally");
+        }
         model.addAttribute("amount", user.getValue());
         model.addAttribute("yearly_value", user.getYearlyCapital());
 
@@ -183,7 +206,6 @@ public class TaxOptimizationController {
     }
 
     private void calculateFundToISK(int start_capital, int profit_capital, int interest_rate, int years){
-
         double total_capital_ISK = (start_capital+profit_capital*0.7);
         double total_capital_fund = (start_capital+profit_capital);
         double yearly_value[][] = new double[2][years];
