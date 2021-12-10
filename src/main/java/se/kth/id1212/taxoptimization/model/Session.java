@@ -65,12 +65,26 @@ public class Session {
         this.inputs.add(new Input(total_loan, other_years, 25, years, interest_rate, desired_payments, yearly_value));
     }
 
+    /**
+     * Returns the fund account value from the latest input.
+     * To be adjusted or removed.
+     * @return The fund account value.
+     */
     public double getValue(){
         return this.inputs.get(inputs.size()-1).getValue();
     }
+
+    /**
+     * Gets two lists of the yearly capital of savings from ISK and Fund Account to compare them
+     * @return Two lists.
+     */
     public int[][] getYearlyCapital(){
         return this.inputs.get(inputs.size()-1).getYearlyCapital();
     }
+    /**
+     * Returns the two different payment rates, and two different investment rates.
+     * @return Four lists.
+     */
     public int[][] getYearlyCSNCapital(){
         return this.inputs.get(inputs.size()-1).getYearlyCSNCapital();
     }

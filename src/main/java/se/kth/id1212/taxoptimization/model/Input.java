@@ -54,9 +54,20 @@ public class Input {
             yearBasis.add(new YearBasis(i, yearly_value[0][i], yearly_value[1][i],yearly_value[2][i], yearly_value[3][i]));
         }
     }
+
+    /**
+     * Gets the value of the Fund account
+     * To be adjusted or removed
+     * @return Returns Fund Account Capital
+     */
     public double getValue(){
         return fund_account_capital;
     }
+
+    /**
+     * Gets two lists of the yearly capital of savings from ISK and Fund Account to compare them
+     * @return Two lists.
+     */
     public int[][] getYearlyCapital(){
         int[][] yearlyCapital = new int[2][yearBasis.size()];
         int i = 0;
@@ -69,6 +80,10 @@ public class Input {
         return yearlyCapital;
     }
 
+    /**
+     * Returns the two different payment rates, and two different investment rates.
+     * @return Four lists.
+     */
     public int[][] getYearlyCSNCapital(){
         int[][] yearlyCapital = new int[4][yearBasis.size()+1];
         int i = 0;

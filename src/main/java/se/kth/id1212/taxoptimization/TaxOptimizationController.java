@@ -124,6 +124,7 @@ public class TaxOptimizationController {
         calculateFundToISK(start_capital, profit_capital, interest_rate, years);
         model.addAttribute("amount", user.getValue());
         model.addAttribute("yearly_value", user.getYearlyCapital());
+
         return "answer";
     }
 
@@ -143,9 +144,8 @@ public class TaxOptimizationController {
         user.createCSNInput(total_loan, csn_interest_rate, desired_payment);
         model.addAttribute("yearly_value", user.getYearlyCSNCapital());
         int yearly_value[][] = user.getYearlyCSNCapital();
-        for(int i = 0; i < yearly_value[0].length; i++){
-            model.addAttribute("yearly_value0"+Integer.toString(i), yearly_value[0][i]);
-            model.addAttribute("yearly_value1"+Integer.toString(i), yearly_value[0][i]);
+        for(int j = 0; j < yearly_value[0].length; j++){
+            System.out.println(yearly_value[0][j]+ " " +yearly_value[1][j]+ " " +yearly_value[2][j]+ " " +yearly_value[3][j]);
         }
         return "csnanswer";
     }
