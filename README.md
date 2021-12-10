@@ -35,5 +35,12 @@ ALTER TABLE `Session` ADD CONSTRAINT `Session_fk0` FOREIGN KEY (`session_id`) RE
 
 ALTER TABLE `Input` ADD CONSTRAINT `Input_fk0` FOREIGN KEY (`input_id`) REFERENCES `Session`(`session_id`);
 
+# Related Repositories
+## https://github.com/Willgar/ID1212-API-Server
 
+The controller makes API Requests to a local API server as seen in the link above. The server handles GET requests and makes calculations which is returned in a JSON object.
+
+## https://github.com/Willgar/ID1212
+
+Previous mandatory tasks from the course. 
 
