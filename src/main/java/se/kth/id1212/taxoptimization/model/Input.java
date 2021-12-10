@@ -50,10 +50,9 @@ public class Input {
         this.interest_rate = interest_rate;
         this.desired_payments = desired_payments;
 
-        for(int i = 0; i < years; i++){
+        for(int i = 0; i < max_years; i++){
             yearBasis.add(new YearBasis(i, yearly_value[0][i], yearly_value[1][i],yearly_value[2][i], yearly_value[3][i]));
         }
-
     }
     public double getValue(){
         return fund_account_capital;
@@ -71,7 +70,7 @@ public class Input {
     }
 
     public int[][] getYearlyCSNCapital(){
-        int[][] yearlyCapital = new int[4][yearBasis.size()];
+        int[][] yearlyCapital = new int[4][yearBasis.size()+1];
         int i = 0;
         for (YearBasis n : yearBasis) {
             int[] value = n.getCSNCapital();

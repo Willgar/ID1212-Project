@@ -15,6 +15,8 @@ public class YearBasis {
         this.ISK_capital = ISK_capital;
         this.fund_account_capital = fund_account_capital;
         this.capital_difference = Math.abs(ISK_capital-fund_account_capital);
+        System.out.println(years_from_start);
+
     }
     public YearBasis(int years_from_start, int yearly_average_minimum, int yearly_profit, int yearly_average_extra, int yearly_profit_extra){
         this.yearly_average_minimum = yearly_average_minimum;
@@ -29,7 +31,7 @@ public class YearBasis {
         return item;
     }
     public int[] getCSNCapital(){
-        int item[] = new int[]{yearly_average_minimum, yearly_profit, yearly_average_extra, years_from_start};
+        int item[] = new int[]{yearly_average_minimum, yearly_profit, yearly_average_extra, yearly_profit_extra};
         return item;
     }
 

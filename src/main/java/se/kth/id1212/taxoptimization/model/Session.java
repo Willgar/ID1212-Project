@@ -36,7 +36,6 @@ public class Session {
         yearly_value[1][0] = (int)profit;
         while(sum < total_loan){
             years++;
-            System.out.println(sum + " " + start +" " + profit);
             sum += start*12;
             start = start*1.02;
             profit = profit*(interest_rate/100.0f+1)+desired_payments*12;
@@ -64,15 +63,6 @@ public class Session {
             yearly_value[3][i] = (int)other_profit;
         }
         this.inputs.add(new Input(total_loan, other_years, 25, years, interest_rate, desired_payments, yearly_value));
-        /*
-        for(int x = 0; x < yearly_value.length; x++){
-            for(int y = 0; y < yearly_value[x].length; y++){
-                try {
-                    System.out.println("array: " + x + " array: " + y + " " + yearly_value[x][y]);
-                } catch(Exception e){}
-            }
-        }   */
-
     }
 
     public double getValue(){
