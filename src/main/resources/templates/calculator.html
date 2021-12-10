@@ -7,28 +7,49 @@
         body{
             margin: 0;
             padding: 0;
-            background-color: darkseagreen;
-            font-family: Menlo;
+            font-family: Verdana;
             height:100vh;
             overflow: hidden;
             background: linear-gradient(180deg,lightskyblue,midnightblue);
         }
-        .wrapper{
+        .wrapper {
             position: absolute;
+            left: 50%;
             top: 50%;
-            left:50%;
-            transform: translate(-50%,-50%);
-            width: 400px;
-            background-color: floralwhite;
-            border-radius: 20px;
+            -webkit-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
 
         }
-        .outer h3{
-            text-align: center;
-            padding: 0 0 20px 0;
-            border-bottom: 1px solid gray;
+
+        .content{
+            width: 350px;
+            height: 450px;
+            background-color: floralwhite;
+            border-radius: 20px;
         }
-        .outer form{
+        .header{
+            text-align: center;
+            padding: 20px 0 20px 0;
+            border-bottom: 1px solid gray;
+            background-color: floralwhite;
+            border-radius: 20px;
+        }
+
+        .content-header{
+            text-align: center;
+            border-bottom: 1px solid gray;
+            background-color: floralwhite;
+            padding-bottom: 10px;
+            border-radius: 20px;
+        }
+
+        .choice-wrapper{
+            display: grid;
+            column-gap: 100px;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .choice-wrapper form{
             padding: 0 40px;
             box-sizing: border-box;
         }
@@ -74,10 +95,10 @@
             width: 100%;
         }
         .button{
-            margin:30px 0;
             text-align: center;
             font-size: 18px;
             color:floralwhite;
+            padding-bottom: 5px;
             width: 100%;
             height: 40px;
             border: 1px solid;
@@ -88,60 +109,85 @@
         .button:hover{
             background-color: midnightblue;
         }
+
+        .output-slider{
+            padding:2px;
+            text-align: center;
+        }
+        .beside{
+            display: inline-block;
+        }
+        .beside label{
+            display: block;
+        }
+        .beside input{
+            float: left;
+        }
+        .beside output{
+            float: right;
+        }
     </style>
 </head>
 <body>
 <div class="wrapper">
-    <h3>Calculator Page</h3>
-    <div class="left">
-        <form action="answer" method="post">
-            <div class="txt_field">
-                <input type="number" id="start_capital" name="start_capital" />
-                <label for="start_capital">Start Capital:</label>
-            </div>
-            <div class="txt_field">
-                <input type="number" id="profit_capital" name="profit_capital" />
-                <label for="profit_capital">Profit:</label>
-            </div>
-            <div class="txt_field">
-                <input type="number" id="interest_rate" name="interest_rate" />
-                <label for="interest_rate">How much interest? average är 7?</label>
-            </div>
-            <div class="txt_field">
-                <input type="number" id="years" name="years" />
-                <label for="years">How many years?</label>
-            </div>
-            <input type="submit" value="Start" class="button"/>
-        </form>
-        <!---
-        todo: add input for start capital, profit capital, interest rate och antal år
-        maybe add sliders?
-        and button to submit
-        något snyggt för att visa upp resultaten, typ sida vid sida graf där man jämför ökningen samt visar skillnaden i slutändan
-        kanske en ny html sida för att visa upp resultaten?
-        kan man gömma password/hasha den direkt i post
-        --->
+    <h3 class="header">Calculator Page</h3>
+    <div class="choice-wrapper">
+        <div class="content">
+            <h3 class="content-header">Fond to ISK</h3>
+            <form action="answer" method="post">
+                <div class="txt_field">
+                    <input type="number" id="start_capital" name="start_capital" />
+                    <span></span>
 
+                    <label for="start_capital">Start Capital:</label>
+                </div>
+                <div class="txt_field">
+                    <input type="number" id="profit_capital" name="profit_capital" />
+                    <span></span>
 
-    </div>
-    <div class="right">
-        <form action="csnanswer" method="post">
-            <div class="txt_field">
-                <input type="number" id="total_loan" name="total_loan" /> <br />
-                <label for="total_loan">Total Loan:</label><br />
+                    <label for="profit_capital">Profit:</label>
+                </div>
+                <div class="txt_field">
+                    <input type="number" id="interest_rate" name="interest_rate" />
+                    <span></span>
+                    <label for="interest_rate">How much interest? average är 7?</label>
+                </div>
+                <div class="txt_field">
+                    <div class="slider">
+                        <input type="range" value="10" min="3" max="100" id="years" name="years" oninput="document.getElementById('years-output').value = this.value"/>
+                        <label for="years">How many years?</label>
+                    </div>
+                    <div class="slider">
+                        Years:
+                        <output id="years-output">10</output>
+                    </div>
+                </div>
+                <input type="submit" value="Start" class="button"/>
+            </form>
+        </div>
+        <div class="content">
+            <h3 class="content-header">CSN</h3>
+            <form action="csnanswer" method="post">
+                <div class="txt_field">
+                    <input type="number" id="total_loan" name="total_loan" />
+                    <span></span>
+                    <label for="total_loan">Total Loan:</label>
 
-            </div>
-            <div class="txt_field">
-                <input type="number" id="csn_interest_rate" name="csn_interest_rate" /><br /><br />
-                <label for="csn_interest_rate">How much interest? Average is 7</label><br />
+                </div>
+                <div class="txt_field">
+                    <input type="number" id="csn_interest_rate" name="csn_interest_rate" />
+                    <span></span>
+                    <label for="csn_interest_rate">How much interest? Average is 7</label>
 
-            </div>
-            <div class="txt_field">
-                <input type="number" id="desired_payment" name="desired_payment" /><br /><br />
-                <label for="desired_payment">What would be your desired payment over the minimum?</label><br />
-            </div>
-            <input type="submit" value="Start" class="button"/>
-        </form>
+                </div>
+                <div class="txt_field">
+                    <input type="number" id="desired_payment" name="desired_payment" />
+                    <span></span>
+                    <label for="desired_payment">What would be your desired payment over the minimum?</label>
+                </div>
+                <input type="submit" value="Start" class="button"/>
+            </form>
+        </div>
     </div>
 </div>
 </body>
