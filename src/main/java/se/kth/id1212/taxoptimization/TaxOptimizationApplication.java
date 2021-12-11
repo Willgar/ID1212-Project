@@ -17,7 +17,7 @@ import java.net.http.HttpResponse;
 import java.util.Arrays;
 
 /**
- * The main function for Spring to start the application
+ * The main function for Spring to start the application and the Controller.
  *
  * @author William Axbrink
  * @author Charlotta Bodén

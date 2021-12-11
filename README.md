@@ -35,6 +35,11 @@ ALTER TABLE `Session` ADD CONSTRAINT `Session_fk0` FOREIGN KEY (`session_id`) RE
 
 ALTER TABLE `Input` ADD CONSTRAINT `Input_fk0` FOREIGN KEY (`input_id`) REFERENCES `Session`(`session_id`);
 
+# Docker
+docker build -t taxapplication:latest .
+
+docker run -d --name taxapplication -p 8080:8080 taxapplication:latest
+
 # Related Repositories
 ## https://github.com/Willgar/ID1212-API-Server
 
