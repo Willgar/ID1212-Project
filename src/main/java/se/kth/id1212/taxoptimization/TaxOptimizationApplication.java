@@ -128,7 +128,7 @@ public class TaxOptimizationApplication {
         try { //Connects to a local API server to make the calculations
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create("http://localhost:3000/tax/?start_capital=" + start_capital + "&profit_capital=" + profit_capital + "&years=" + years + "&interest_rate=+" + interest_rate))
+                    .uri(URI.create("https://fundaccounttoiskcalculatorapi.herokuapp.com/tax/?start_capital=" + start_capital + "&profit_capital=" + profit_capital + "&years=" + years + "&interest_rate=+" + interest_rate))
                     .build();
             HttpResponse<String> response =
                     client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -204,6 +204,11 @@ public class TaxOptimizationApplication {
         return "login";
     }
 
+
+    /**
+     * Calculates the difference.
+     * Deprecated and kept as backup.
+     */
     private void calculateFundToISK(int start_capital, int profit_capital, int interest_rate, int years){
         double total_capital_ISK = (start_capital+profit_capital*0.7);
         double total_capital_fund = (start_capital+profit_capital);
@@ -216,8 +221,6 @@ public class TaxOptimizationApplication {
             total_capital_fund = total_capital_fund*((interest_rate/100.0f)+1);
             yearly_value[1][i] = (total_capital_fund-start_capital)*0.7+start_capital;
         }
-        //yearly_value[1][length(yearly_value)-1] = (total_capital_fund-start_capital)*0.7+start_capital;
-        // yearly_value[0][length(yearly_value)-1] = (total_capital_fund-start_capital)*0.7+start_capital;
         this.user.createInput(start_capital, profit_capital, interest_rate, years, yearly_value);
     }
 
