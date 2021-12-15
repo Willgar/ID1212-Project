@@ -54,7 +54,7 @@ public class TaxOptimizationApplication {
                              Model model) throws Exception {
         try{
             this.user = new User(email, password);
-            boolean test = user.userExists();
+            //boolean test = user.userExists();
             //System.out.println(test + " " + email + " " + password + " " + name);
         /*
             Takes user, pass, etc
