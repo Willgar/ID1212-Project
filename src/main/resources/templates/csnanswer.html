@@ -4,55 +4,133 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>Swedish Fund Account to ISK Tax Calculator</title>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript">
+    <script type="text/javascript" th:inline="javascript">
         google.charts.load('current', {packages: ['corechart', 'bar']});
         google.charts.setOnLoadCallback(drawTitleSubtitle);
         //Gör om till data från Users getYearlyCapital där man jämflr ISK och Fund_account
         function drawTitleSubtitle() {
-            var data = new google.visualization.DataTable();
-            data.addColumn('timeofday', 'Time of Day');
-            data.addColumn('number', 'Motivation Level');
-            data.addColumn('number', 'Energy Level');
+            let year=new Date().getFullYear()
+            let CSNdata = new google.visualization.DataTable();
+            CSNdata.addColumn('string', 'Year');
+            CSNdata.addColumn('number', 'CSN Minimum Payment');
+            CSNdata.addColumn('number', 'CSN Custom Payment');
+            let theList = [[${yearly_value}]];
 
-            data.addRows([
-                [{v: [8, 0, 0], f: '8 am'}, 1, .25],
-                [{v: [9, 0, 0], f: '9 am'}, 2, .5],
-                [{v: [10, 0, 0], f:'10 am'}, 3, 1],
-                [{v: [11, 0, 0], f: '11 am'}, 4, 2.25],
-                [{v: [12, 0, 0], f: '12 pm'}, 5, 2.25],
-                [{v: [13, 0, 0], f: '1 pm'}, 6, 3],
-                [{v: [14, 0, 0], f: '2 pm'}, 7, 4],
-                [{v: [15, 0, 0], f: '3 pm'}, 8, 5.25],
-                [{v: [16, 0, 0], f: '4 pm'}, 9, 7.5],
-                [{v: [17, 0, 0], f: '5 pm'}, 10, 10],
-            ]);
-
-            var options = {
-                chart: {
-                    title: 'Motivation and Energy Level Throughout the Day',
-                    subtitle: 'Based on a scale of 1 to 10'
-                },
-                hAxis: {
-                    title: 'Time of Day',
-                    format: 'h:mm a',
-                    viewWindow: {
-                        min: [7, 30, 0],
-                        max: [17, 30, 0]
-                    }
-                },
-                vAxis: {
-                    title: 'Rating (scale of 1-10)'
-                }
+            for (let i = 0; i < theList[0].length; i++) {
+                CSNdata.addRow([(year+i).toString(),theList[0][i],theList[2][i]]);
             };
 
-            var materialChart = new google.charts.Bar(document.getElementById('chart_div'));
-            materialChart.draw(data, options);
+            let ISKdata = new google.visualization.DataTable();
+            ISKdata.addColumn('string', 'Year');
+            ISKdata.addColumn('number', 'Investment Capital with Minimum Payment');
+            ISKdata.addColumn('number', 'Investment Capital with Custom Payment');
 
+            for (let i = 0; i < theList[0].length; i++) {
+                ISKdata.addRow([(year+i).toString(),theList[1][i],theList[3][i]]);
+            };
+
+            let options = {
+                fontName:'Verdana',
+                chart: {
+                    titlePosition: 'none',
+                    backgroundColor: '#fffaf0',
+
+                },
+                hAxis: {
+                    title: 'Years',
+                },
+                vAxis: {
+                    title: 'Yearly Payment'
+                },
+                backgroundColor: '#fffaf0',
+                'chartArea': {
+                    'backgroundColor': {
+                        'fill': '#fffaf0',
+                        'opacity': 100
+                    },
+                }
+            };
+            let options2 = {
+                fontName:'Verdana',
+                chart: {
+                    titlePosition: 'none',
+                    backgroundColor: '#fffaf0',
+
+                },
+                hAxis: {
+                    title: 'Years',
+                },
+                vAxis: {
+                    title: 'Yearly Investment Capital',
+                    textStyle: { textSize:'9',paddingRight: '50', marginRight: '50'},
+
+
+                },
+                backgroundColor: '#fffaf0',
+                'chartArea': {
+                    'backgroundColor': {
+                        'fill': '#fffaf0',
+                        'opacity': 100
+                    },
+                }
+            };
+            let materialChart = new google.charts.Bar(document.getElementById('csn_div'));
+            materialChart.draw(CSNdata, google.charts.Bar.convertOptions(options));
+            let iskChart = new google.charts.Bar(document.getElementById('isk_div'));
+            iskChart.draw(ISKdata, google.charts.Bar.convertOptions(options2));
+
+            var span = document.getElementById("diff");
+            span.appendChild( document.createTextNode(lastValue(theList[1])-lastValue(theList[3])));
+
+        };
+        function lastValue(list){
+            console.log(list);
+            for(let i=list.length-1;i>0;i--){
+                console.log(list[i]);
+                if(list[i]!==0){
+                    return list[i]
+                }
+
+            }
         }
     </script>
+    <style>
+
+        body{
+            background: linear-gradient(180deg,lightskyblue,midnightblue);
+            font-family: Verdana;
+            height: 100vh;
+        }
+        .wrapper{
+            padding: 25px;
+            width:75%;
+            border-radius: 25px;
+            margin: 0;
+            list-style: none;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            -webkit-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+            background-color: #fffaf0;
+            align-items: center;
+        }
+        .wrapper h3{
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-<div id="chart_div"></div>
+<div class="wrapper">
+    <h3>Calculation </h3>
+    <div>
+        <h3 >Saved from investing: <span id="diff"></span> </h3>
+    </div>
+    <h3>Payment to CSN</h3>
+    <div id="csn_div"></div>
 
+    <h3>Investing Profit after CSN Payment</h3>
+    <div id="isk_div"></div>
+</div>
 </body>
 </html>

@@ -41,10 +41,11 @@ public class YearBasis {
     }
 
     /**
-     * Four lists of lists where the first list contains the yearly average minimum payment, the second list contains
-     * the yearly profit if the user would have invested instead of paying more, the third is the payment rate if
-     * the user paid minimum plus extra towards the loan, and the fourth is the investments of minimum + extra
-     * from the years after the CSN is paid off until the comparison is also paid off.
+     * Four lists of lists where the
+     * first list contains the yearly average minimum payment,
+     * the second list contains the yearly profit if the user would have invested instead of paying more,
+     * the third is the payment rate if the user paid minimum plus extra towards the loan, and
+     * the fourth is the investments of minimum + extra from the years after the CSN is paid off until the comparison is also paid off.
      * @return Four items
      */
     public int[] getCSNCapital(){
