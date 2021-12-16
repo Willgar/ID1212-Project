@@ -152,14 +152,22 @@ public class TaxOptimizationApplication {
             }
             this.user.createInput(start_capital, profit_capital, interest_rate, years, yearly_value);
             System.out.println("Input created with API server");
-        } catch(Exception e){ //If it fails, then we use the backup method ( Overly complicated but for grading reasons )
-            calculateFundToISK(start_capital, profit_capital, interest_rate, years);
-            System.out.println("Input created locally");
-        }
-        model.addAttribute("amount", user.getValue());
-        model.addAttribute("yearly_value", user.getYearlyCapital());
+            model.addAttribute("amount", user.getValue());
+            model.addAttribute("yearly_value", user.getYearlyCapital());
 
-        return "answer";
+            return "answer";
+        } catch(Exception e){ //If it fails, then we use the backup method ( Overly complicated but for grading reasons )
+            try {
+                calculateFundToISK(start_capital, profit_capital, interest_rate, years);
+                System.out.println("Input created locally");
+                model.addAttribute("amount", user.getValue());
+                model.addAttribute("yearly_value", user.getYearlyCapital());
+
+                return "answer";
+            } catch(Exception e2){
+                return "login";
+            }
+        }
     }
 
     /**
@@ -174,14 +182,18 @@ public class TaxOptimizationApplication {
     @PostMapping("/csnanswer")
     public String answer(@RequestParam() int total_loan,
                          @RequestParam() int csn_interest_rate,
-                         @RequestParam() int desired_payment,Model model) throws Exception { ;
-        user.createCSNInput(total_loan, csn_interest_rate, desired_payment);
-        model.addAttribute("yearly_value", user.getYearlyCSNCapital());
-        int yearly_value[][] = user.getYearlyCSNCapital();
-        for(int j = 0; j < yearly_value[0].length; j++){
-            System.out.println(yearly_value[0][j]+ " " +yearly_value[1][j]+ " " +yearly_value[2][j]+ " " +yearly_value[3][j]);
+                         @RequestParam() int desired_payment,Model model) throws Exception {
+        try {
+            user.createCSNInput(total_loan, csn_interest_rate, desired_payment);
+            model.addAttribute("yearly_value", user.getYearlyCSNCapital());
+            int yearly_value[][] = user.getYearlyCSNCapital();
+            for (int j = 0; j < yearly_value[0].length; j++) {
+                System.out.println(yearly_value[0][j] + " " + yearly_value[1][j] + " " + yearly_value[2][j] + " " + yearly_value[3][j]);
+            }
+            return "csnanswer";
+        } catch(Exception e){
+            return "login";
         }
-        return "csnanswer";
     }
 
     /**
