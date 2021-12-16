@@ -54,7 +54,13 @@ public class Input {
             yearBasis.add(new YearBasis(i, yearly_value[0][i], yearly_value[1][i],yearly_value[2][i], yearly_value[3][i]));
         }
     }
-
+    public Input(int total_loan, int estimated_years, int max_years, int interest_rate, int desired_payments){
+        this.total_loan = total_loan;
+        this.estimated_years = estimated_years;
+        this.max_years = max_years;
+        this.interest_rate = interest_rate;
+        this.desired_payments = desired_payments;
+    }
     /**
      * Gets the value of the Fund account
      * To be adjusted or removed
