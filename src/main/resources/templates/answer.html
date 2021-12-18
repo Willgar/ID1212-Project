@@ -9,6 +9,8 @@
         google.charts.setOnLoadCallback(drawTitleSubtitle);
         //Gör om till data från Users getYearlyCapital där man jämflr ISK och Fund_account
         function drawTitleSubtitle() {
+            let year=new Date().getFullYear()
+
             let data = new google.visualization.DataTable();
             data.addColumn('string', 'Year');
             data.addColumn('number', 'ISK');
@@ -16,7 +18,7 @@
             let theList = [[${yearly_value}]];
 
             for (let i = 0; i < theList[0].length; i++) {
-                data.addRow([(2021+i).toString(),theList[0][i],theList[1][i]]);
+                data.addRow([(year+i).toString(),theList[0][i],theList[1][i]]);
             };
 
             let options = {
