@@ -7,7 +7,7 @@ import se.kth.id1212.taxoptimization.model.User;
 import java.sql.*;
 
 /**
- * @Author William Axbrink
+ * @author William Axbrink
  */
 public class CSNData {
 
@@ -69,7 +69,7 @@ public class CSNData {
     public void insertUser(String[] query) throws Exception{
         Class.forName("com.mysql.jdbc.Driver");
         Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/project", SECRETS.DATABASEUSER, SECRETS.DATABASEPASS);
-        String newquery = " INSERT INTO User (email, first_name, last_name, password, country, city, mobile_number, gender, subscribe_newsletter) values (? ? ? ? ? ? ? ? ?)";
+        String newquery = " INSERT INTO user (email, first_name, last_name, password, country, city, mobile_number, gender, subscribe_newsletter) values (? ? ? ? ? ? ? ? ?)";
         PreparedStatement prep = con.prepareStatement(newquery);
         prep.setString(0, query[0]);
         prep.setString(1, query[1]);
@@ -91,7 +91,7 @@ public class CSNData {
     public void insertCSNInput(int[] query) throws Exception{
         Class.forName("com.mysql.jdbc.Driver");
         Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/project", SECRETS.DATABASEUSER, SECRETS.DATABASEPASS);
-        String newquery = " INSERT INTO User (input_id, total_loan, estimated_years, max_years, average_payment, interest_rate, desired_payment) values (? ? ? ? ? ? ?)";
+        String newquery = " INSERT INTO csn_input (input_id, total_loan, estimated_years, max_years, average_payment, interest_rate, desired_payment, session_id) values (? ? ? ? ? ? ? ?)";
         PreparedStatement prep = con.prepareStatement(newquery);
         prep.setInt(0, query[0]);
         prep.setInt(1, query[1]);
@@ -99,7 +99,8 @@ public class CSNData {
         prep.setInt(3, query[3]);
         prep.setInt(4, query[4]);
         prep.setInt(5, query[5]);
-        prep.setInt(5, query[6]);
+        prep.setInt(6, query[6]);
+        prep.setInt(7, query[7]);
         prep.execute();
         con.close();
     }
@@ -111,15 +112,16 @@ public class CSNData {
     public void insertPayments(int[] query) throws Exception{
         Class.forName("com.mysql.jdbc.Driver");
         Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/project", SECRETS.DATABASEUSER, SECRETS.DATABASEPASS);
-        String newquery = " INSERT INTO Payments (payment_id, yearly_average_minimum, yearly_profit, yearly_average_extra, yearly_profit_extra, capital_difference, years_from_start) values (? ? ? ? ? ? ?)";
+        String newquery = " INSERT INTO payments (payment_id, yearly_average_minimum, yearly_profit, yearly_average_extra, yearly_profit_extra, capital_difference, years_from_start, input_id) values (? ? ? ? ? ? ? ?)";
         PreparedStatement prep = con.prepareStatement(newquery);
-        prep.setString(0, Integer.toString(query[0]));
+        prep.setInt(0, query[0]);
         prep.setInt(1, query[1]);
         prep.setInt(2, query[2]);
         prep.setInt(3, query[3]);
         prep.setInt(4, query[4]);
         prep.setInt(5, query[5]);
-        prep.setInt(5, query[6]);
+        prep.setInt(6, query[6]);
+        prep.setInt(7, query[7]);
         prep.execute();
         con.close();
     }
@@ -131,12 +133,13 @@ public class CSNData {
     public void insertTaxSession(String[] query) throws Exception{
         Class.forName("com.mysql.jdbc.Driver");
         Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/project", SECRETS.DATABASEUSER, SECRETS.DATABASEPASS);
-        String newquery = " INSERT INTO TaxSession (session_id, time, location, browser) values (? ? ? ?)";
+        String newquery = " INSERT INTO session (session_id, time, location, browser, email) values (? ? ? ? ?)";
         PreparedStatement prep = con.prepareStatement(newquery);
         prep.setInt(0, Integer.parseInt(query[0]));
         prep.setInt(1, Integer.parseInt(query[1]));
         prep.setString(2, query[2]);
         prep.setString(3, query[3]);
+        prep.setString(4, query[4]);
         prep.execute();
         con.close();
     }
@@ -148,7 +151,7 @@ public class CSNData {
     public void insertTaxInput(int[] query) throws Exception{
         Class.forName("com.mysql.jdbc.Driver");
         Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/project", SECRETS.DATABASEUSER, SECRETS.DATABASEPASS);
-        String newquery = " INSERT INTO TaxInput (input_id, start_capital, profit_capital, interest_rate, fund_account_capital, ISK_account_capital, account_difference) values (? ? ? ? ? ? ?)";
+        String newquery = " INSERT INTO input (input_id, start_capital, profit_capital, interest_rate, fund_account_capital, isk_account_capital, account_difference, session_id) values (? ? ? ? ? ? ? ?)";
         PreparedStatement prep = con.prepareStatement(newquery);
         prep.setInt(0, query[0]);
         prep.setInt(1, query[1]);
@@ -156,7 +159,8 @@ public class CSNData {
         prep.setInt(3, query[3]);
         prep.setInt(4, query[4]);
         prep.setInt(5, query[5]);
-        prep.setInt(5, query[6]);
+        prep.setInt(6, query[6]);
+        prep.setInt(7, query[7]);
         prep.execute();
         con.close();
     }
@@ -169,12 +173,13 @@ public class CSNData {
     public void insertYearBasis(int[] query) throws Exception{
         Class.forName("com.mysql.jdbc.Driver");
         Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/project", SECRETS.DATABASEUSER, SECRETS.DATABASEPASS);
-        String newquery = " INSERT INTO YearBasis (years_from_start, ISK_capital, fund_account_capital, capital_difference) values (? ? ? ?)";
+        String newquery = " INSERT INTO year_basis (years_from_start, isk_account_capital, fund_account_capital, capital_difference, input_id) values (? ? ? ? ?)";
         PreparedStatement prep = con.prepareStatement(newquery);
         prep.setInt(0, query[0]);
         prep.setInt(1, query[1]);
         prep.setInt(2, query[2]);
         prep.setInt(3, query[3]);
+        prep.setInt(4, query[4]);
         prep.execute();
         con.close();
     }
@@ -185,11 +190,11 @@ public class CSNData {
      * @return Return all data in the table in form of a User object.
      * @throws Exception If something goes wrong.
      */
-    private User selectUser(String email) throws Exception{
+    public static User selectUser(String email, String password) throws Exception{
         Class.forName("com.mysql.jdbc.Driver");
         Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/project", SECRETS.DATABASEUSER, SECRETS.DATABASEPASS);
         Statement stmt=con.createStatement();
-        String query = "SELECT * FROM User WHERE email='"+email+"';";
+        String query = "SELECT * FROM User WHERE email='"+email+"' AND password='"+ password+"';";
         ResultSet rs = stmt.executeQuery(query);
         User user = null;
         try {
@@ -197,13 +202,13 @@ public class CSNData {
             String user_email = rs.getString(1);
             String first_name = rs.getString(2);
             String last_name = rs.getString(3);
-            String password = rs.getString(4);
+            String user_password = rs.getString(4);
             String country = rs.getString(5);
             String city = rs.getString(6);
             String mobile_number = rs.getString(7);
             String gender = rs.getString(8);
             String subscribe_newsletter = String.valueOf(rs.getBoolean(9));
-            user = new User(first_name, password, user_email, last_name, country, city, Integer.parseInt(mobile_number), gender, subscribe_newsletter);
+            user = new User(first_name, user_password, user_email, last_name, country, city, Integer.parseInt(mobile_number), gender, subscribe_newsletter);
         } catch(Exception e){
             System.out.println(e);
             return null;
