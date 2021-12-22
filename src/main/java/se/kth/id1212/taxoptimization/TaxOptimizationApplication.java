@@ -28,14 +28,13 @@ public class TaxOptimizationApplication {
     User user;
     /**
      * The front page of the website, so that the user can log in.
-     * If a user goes straight to the calculator without loggin in, they will be redirected to the login page.
-     * If a user gets exposed to an error page, they will be redirected to login.
+     * If a user goes straight to the calculator without logging in, they will be redirected to the login page.
+     * If a user gets exposed to an error page, they will be redirected to the login page.
      * @param model The model for the HTML pages.
      * @return Returns the login.html page
-     * @throws Exception If something goes wrong.
      */
     @RequestMapping({"/", "/error", "/calculator"})
-    public String login(Model model) throws Exception {
+    public String login(Model model){
         return "login";
     }
 
@@ -46,31 +45,21 @@ public class TaxOptimizationApplication {
      * @param email The users email
      * @param model The model for the HTML pages
      * @return Returns the calculator.html page
-     * @throws Exception If something goes wrong.
      */
     @PostMapping("/calculator")
     public String calculator(@RequestParam() String password,
                              @RequestParam() String email,
-                             Model model) throws Exception {
+                             Model model) {
         try{
             this.user = new User(email, password);
-            //boolean test = user.userExists();
-            //System.out.println(test + " " + email + " " + password + " " + name);
-        /*
-            Takes user, pass, etc
-            if(valid)
-                create user object from mysql database
-                return calculator
-            else if(email exists in database but wrong password)
-                return wrong password page
-            else if(email does not exist)
-                create new user with user/pass/mail
-                return calculator
-
-         */
-            return "calculator";
+            if(user.userExists())
+                return "calculator";
+            else {
+                return "calculator";
+                //return "signup";       Change to this return when database is up and running
+            }
         }catch (Exception e){
-            System.out.println(e);
+            e.printStackTrace();
             return "login";
         }
     }
@@ -118,13 +107,12 @@ public class TaxOptimizationApplication {
      * @param years How many years ahead the user wants to let it grow.
      * @param model The model for the HTML pages
      * @return Returns the answer.html page with the calculated value.
-     * @throws Exception If something goes wrong.
      */
     @PostMapping("/answer")
     public String answer(@RequestParam() int start_capital,
                          @RequestParam() int profit_capital,
                          @RequestParam() int interest_rate,
-                         @RequestParam() int years,Model model) throws Exception {
+                         @RequestParam() int years,Model model){
         try { //Connects to a local API server to make the calculations
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder()
@@ -133,11 +121,11 @@ public class TaxOptimizationApplication {
             HttpResponse<String> response =
                     client.send(request, HttpResponse.BodyHandlers.ofString());
             //Parses the JSON response with Regex
-            String regex[] = response.body().split("\\[");
+            String[] regex = response.body().split("\\[");
             String[] isk = regex[1].split(",");
             isk = Arrays.copyOf(isk, isk.length - 1);
             String[] fund = regex[2].split(",");
-            double yearly_value[][] = new double[2][years];
+            double[][] yearly_value = new double[2][years];
             int i = 0;
             for (String s : isk) {
                 s = s.replace("]", "");
@@ -177,21 +165,21 @@ public class TaxOptimizationApplication {
      * @param desired_payment How much above the minimum the users wants to pay towards the loan.
      * @param model The model for the HTML pages.
      * @return Returns the csnanswer.html page with the calculated values.
-     * @throws Exception If something goes wrong.
      */
     @PostMapping("/csnanswer")
     public String answer(@RequestParam() int total_loan,
                          @RequestParam() int csn_interest_rate,
-                         @RequestParam() int desired_payment,Model model) throws Exception {
+                         @RequestParam() int desired_payment,Model model){
         try {
             user.createCSNInput(total_loan, csn_interest_rate, desired_payment);
             model.addAttribute("yearly_value", user.getYearlyCSNCapital());
-            int yearly_value[][] = user.getYearlyCSNCapital();
+            int[][] yearly_value = user.getYearlyCSNCapital();
             for (int j = 0; j < yearly_value[0].length; j++) {
                 System.out.println(yearly_value[0][j] + " " + yearly_value[1][j] + " " + yearly_value[2][j] + " " + yearly_value[3][j]);
             }
             return "csnanswer";
         } catch(Exception e){
+            e.printStackTrace();
             return "login";
         }
     }
@@ -224,7 +212,7 @@ public class TaxOptimizationApplication {
     private void calculateFundToISK(int start_capital, int profit_capital, int interest_rate, int years){
         double total_capital_ISK = (start_capital+profit_capital*0.7);
         double total_capital_fund = (start_capital+profit_capital);
-        double yearly_value[][] = new double[2][years];
+        double[][] yearly_value = new double[2][years];
         yearly_value[0][0] = total_capital_ISK;
         yearly_value[1][0] = (total_capital_fund-start_capital)*0.7+start_capital;
         for(int i = 1; i < years; i++){
