@@ -21,7 +21,7 @@ public class CSNData {
     /* Sample structure for Select Query
     private void name(String query) throws Exception{
         //Initialize the class
-        Class.forName("com.mysql.jdbc.Driver");
+        Class.forName("com.mysql.cj.jdbc.Driver");
         //Create connection
         Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/project", SECRETS.DATABASEUSER, SECRETS.DATABASEPASS);
         //Create a statement with the connection to then send the query
@@ -46,7 +46,7 @@ public class CSNData {
     //TODO: Standardize for different inserts
     private void name(String query[]) throws Exception{
         //Initialize the class
-        Class.forName("com.mysql.jdbc.Driver");
+        Class.forName("com.mysql.cj.jdbc.Driver");
         //Create connection
         Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/project", SECRETS.DATABASEUSER, SECRETS.DATABASEPASS);
         String newquery = " INSERT INTO "+Table+" ("+query[0]+", "+query[1]+", "+query[2]+") values (? ? ?)";
@@ -67,7 +67,7 @@ public class CSNData {
      * @throws Exception If something goes wrong.
      */
     public void insertUser(String[] query) throws Exception{
-        Class.forName("com.mysql.jdbc.Driver");
+        Class.forName("com.mysql.cj.jdbc.Driver");
         Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/project", SECRETS.DATABASEUSER, SECRETS.DATABASEPASS);
         String newquery = " INSERT INTO user (email, first_name, last_name, password, country, city, mobile_number, gender, subscribe_newsletter) values (? ? ? ? ? ? ? ? ?)";
         PreparedStatement prep = con.prepareStatement(newquery);
@@ -89,7 +89,7 @@ public class CSNData {
      * @throws Exception If something goes wrong.
      */
     public void insertCSNInput(int[] query) throws Exception{
-        Class.forName("com.mysql.jdbc.Driver");
+        Class.forName("com.mysql.cj.jdbc.Driver");
         Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/project", SECRETS.DATABASEUSER, SECRETS.DATABASEPASS);
         String newquery = " INSERT INTO csn_input (input_id, total_loan, estimated_years, max_years, average_payment, interest_rate, desired_payment, session_id) values (? ? ? ? ? ? ? ?)";
         PreparedStatement prep = con.prepareStatement(newquery);
@@ -110,7 +110,7 @@ public class CSNData {
      * @throws Exception If something goes wrong.
      */
     public void insertPayments(int[] query) throws Exception{
-        Class.forName("com.mysql.jdbc.Driver");
+        Class.forName("com.mysql.cj.jdbc.Driver");
         Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/project", SECRETS.DATABASEUSER, SECRETS.DATABASEPASS);
         String newquery = " INSERT INTO payments (payment_id, yearly_average_minimum, yearly_profit, yearly_average_extra, yearly_profit_extra, capital_difference, years_from_start, input_id) values (? ? ? ? ? ? ? ?)";
         PreparedStatement prep = con.prepareStatement(newquery);
@@ -131,7 +131,7 @@ public class CSNData {
      * @throws Exception If something goes wrong.
      */
     public void insertTaxSession(String[] query) throws Exception{
-        Class.forName("com.mysql.jdbc.Driver");
+        Class.forName("com.mysql.cj.jdbc.Driver");
         Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/project", SECRETS.DATABASEUSER, SECRETS.DATABASEPASS);
         String newquery = " INSERT INTO session (session_id, time, location, browser, email) values (? ? ? ? ?)";
         PreparedStatement prep = con.prepareStatement(newquery);
@@ -149,7 +149,7 @@ public class CSNData {
      * @throws Exception If something goes wrong.
      */
     public void insertTaxInput(int[] query) throws Exception{
-        Class.forName("com.mysql.jdbc.Driver");
+        Class.forName("com.mysql.cj.jdbc.Driver");
         Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/project", SECRETS.DATABASEUSER, SECRETS.DATABASEPASS);
         String newquery = " INSERT INTO input (input_id, start_capital, profit_capital, interest_rate, fund_account_capital, isk_account_capital, account_difference, session_id) values (? ? ? ? ? ? ? ?)";
         PreparedStatement prep = con.prepareStatement(newquery);
@@ -171,7 +171,7 @@ public class CSNData {
      * @throws Exception If something goes wrong.
      */
     public void insertYearBasis(int[] query) throws Exception{
-        Class.forName("com.mysql.jdbc.Driver");
+        Class.forName("com.mysql.cj.jdbc.Driver");
         Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/project", SECRETS.DATABASEUSER, SECRETS.DATABASEPASS);
         String newquery = " INSERT INTO year_basis (years_from_start, isk_account_capital, fund_account_capital, capital_difference, input_id) values (? ? ? ? ?)";
         PreparedStatement prep = con.prepareStatement(newquery);
@@ -191,7 +191,7 @@ public class CSNData {
      * @throws Exception If something goes wrong.
      */
     public static User selectUser(String email, String password) throws Exception{
-        Class.forName("com.mysql.jdbc.Driver");
+        Class.forName("com.mysql.cj.jdbc.Driver");
         Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/project", SECRETS.DATABASEUSER, SECRETS.DATABASEPASS);
         Statement stmt=con.createStatement();
         String query = "SELECT * FROM User WHERE email='"+email+"' AND password='"+ password+"';";
@@ -222,7 +222,7 @@ public class CSNData {
      * @throws Exception If something goes wrong.
      */
     private Input selectCSNInput(String id) throws Exception{
-        Class.forName("com.mysql.jdbc.Driver");
+        Class.forName("com.mysql.cj.jdbc.Driver");
         Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/project", SECRETS.DATABASEUSER, SECRETS.DATABASEPASS);
         Statement stmt=con.createStatement();
         String query = "SELECT * FROM CSNInput WHERE input_id='"+id+"';";
@@ -245,7 +245,7 @@ public class CSNData {
         return input;
     }
     /*private void SQLQueryGet2(String query) throws Exception{
-        Class.forName("com.mysql.jdbc.Driver");
+        Class.forName("com.mysql.cj.jdbc.Driver");
         Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/test" , SECRETS.DATABASEUSER,  SECRETS.DATABASEPASS);
         Statement stmt=con.createStatement();
         ResultSet rs = stmt.executeQuery(query);
