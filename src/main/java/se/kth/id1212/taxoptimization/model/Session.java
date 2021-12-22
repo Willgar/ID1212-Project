@@ -1,8 +1,6 @@
 package se.kth.id1212.taxoptimization.model;
 
-import se.kth.id1212.taxoptimization.data_access.SECRETS;
 
-import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,14 +20,14 @@ public class Session {
         this.time = time;
         this.location = location;
     }
-    public void updateInput(int start_capital, int profit_capital, int interest_rate, int years, double yearly_value[][]){
+    public void updateInput(int start_capital, int profit_capital, int interest_rate, int years, double[][] yearly_value){
         this.inputs.add(new Input(start_capital, profit_capital, interest_rate, years, yearly_value));
     }
     public void updateCSNInput(int total_loan, int interest_rate, int desired_payments){
 
         double start = (total_loan*(0.04))/12;
         double other_start = (total_loan*(0.04))/12;
-        int yearly_value[][] = new int[4][25];
+        int[][] yearly_value = new int[4][25];
         int sum = 0;
         double profit = 0;
         int years = 0;

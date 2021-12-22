@@ -1,8 +1,7 @@
 package se.kth.id1212.taxoptimization.model;
 
-import se.kth.id1212.taxoptimization.data_access.SECRETS;
+import se.kth.id1212.taxoptimization.data_access.CSNData;
 
-import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,13 +27,13 @@ public class User {
     String subscribe;
     List<Session> sessions = new ArrayList<>();
     Random rand = new Random();
-    public User(String email, String password) throws SQLException, ClassNotFoundException {
+    public User(String email, String password) {
         this.email = email;
         this.password = password;
         String id = valueOf(rand.nextInt(100000));
         sessions.add(new Session(id, valueOf(LocalDateTime.now()), "City"));
     }
-    public User(String firstname, String password, String email, String lastname, String country, String city, int phone, String gender, String subscribe) throws Exception {
+    public User(String firstname, String password, String email, String lastname, String country, String city, int phone, String gender, String subscribe) {
         this.email = email;
         this.firstname = firstname;
         this.password = password;
@@ -45,7 +44,7 @@ public class User {
         this.gender = gender;
         this.subscribe = subscribe;
     }
-    public void updateUser(String firstname, String password, String email, String lastname, String country, String city, int phone, String gender, String subscribe) throws Exception {
+    public void updateUser(String firstname, String password, String email, String lastname, String country, String city, int phone, String gender, String subscribe) {
         this.email = email;
         this.firstname = firstname;
         this.password = password;
@@ -88,7 +87,7 @@ public class User {
      * @param years The years to be saved
      * @param yearly_value The yearly values
      */
-    public void createInput(int start_capital, int profit_capital, int interest_rate, int years, double yearly_value[][]){
+    public void createInput(int start_capital, int profit_capital, int interest_rate, int years, double[][] yearly_value){
         this.sessions.get(sessions.size()-1).updateInput(start_capital, profit_capital, interest_rate, years,yearly_value);
     }
 
@@ -100,6 +99,14 @@ public class User {
      */
     public void createCSNInput(int total_loan, int interest_rate, int desired_payments ){
         this.sessions.get(sessions.size()-1).updateCSNInput(total_loan, interest_rate, desired_payments);
+    }
+
+    public boolean userExists() throws Exception {
+        if(CSNData.selectUser(this.email, this.password)!= null){
+            return true;
+        } else{
+            return false;
+        }
     }
     
 }
