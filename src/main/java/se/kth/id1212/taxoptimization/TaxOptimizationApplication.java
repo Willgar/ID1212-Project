@@ -60,7 +60,7 @@ public class TaxOptimizationApplication {
             }
         }catch (Exception e){
             e.printStackTrace();
-            return "login";
+            return "calculator";
         }
     }
 

@@ -102,9 +102,14 @@ public class User {
     }
 
     public boolean userExists() throws Exception {
-        if(CSNData.selectUser(this.email, this.password)!= null){
-            return true;
-        } else{
+        try {
+            if (CSNData.selectUser(this.email, this.password) != null) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch(Exception e) {
+            e.printStackTrace();
             return false;
         }
     }
