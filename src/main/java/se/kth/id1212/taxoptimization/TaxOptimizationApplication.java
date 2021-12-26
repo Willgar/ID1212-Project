@@ -55,11 +55,12 @@ public class TaxOptimizationApplication {
             if(user.userExists())
                 return "calculator";
             else {
-                return "calculator";
-                //return "signup";       Change to this return when database is up and running
+                //return "calculator";
+                return "signup";       //Change to this return when database is up and running
             }
         }catch (Exception e){
             e.printStackTrace();
+            System.out.println("Error");
             return "calculator";
         }
     }
@@ -79,7 +80,7 @@ public class TaxOptimizationApplication {
      * @return Returns the calculator HTML page
      * @throws Exception If something goes wrong
      */
-    @PostMapping("/calculator/signedup")
+    @PostMapping("/signedup")
     public String signedUp(@RequestParam() String firstname,
                            @RequestParam() String password,
                            @RequestParam() String email,
@@ -92,7 +93,7 @@ public class TaxOptimizationApplication {
                            Model model) throws Exception{
         //Create a new user which is added to the DB.
         if(user != null){
-            user.updateUser(firstname, password, email, lastname, country, city, phone, gender, subscribe);
+            user = new User(firstname, password, email, lastname, country, city, phone, gender, subscribe);
         } else{
             user = new User(firstname, password, email, lastname, country, city, phone, gender, subscribe);
         }
@@ -145,6 +146,7 @@ public class TaxOptimizationApplication {
 
             return "answer";
         } catch(Exception e){ //If it fails, then we use the backup method ( Overly complicated but for grading reasons )
+            e.printStackTrace();
             try {
                 calculateFundToISK(start_capital, profit_capital, interest_rate, years);
                 System.out.println("Input created locally");
@@ -153,6 +155,7 @@ public class TaxOptimizationApplication {
 
                 return "answer";
             } catch(Exception e2){
+                e2.printStackTrace();
                 return "login";
             }
         }
@@ -209,7 +212,7 @@ public class TaxOptimizationApplication {
      * Calculates the difference.
      * Deprecated and kept as backup.
      */
-    private void calculateFundToISK(int start_capital, int profit_capital, int interest_rate, int years){
+    private void calculateFundToISK(int start_capital, int profit_capital, int interest_rate, int years) throws Exception {
         double total_capital_ISK = (start_capital+profit_capital*0.7);
         double total_capital_fund = (start_capital+profit_capital);
         double[][] yearly_value = new double[2][years];

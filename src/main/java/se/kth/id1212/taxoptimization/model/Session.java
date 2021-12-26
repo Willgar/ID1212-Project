@@ -1,8 +1,13 @@
 package se.kth.id1212.taxoptimization.model;
 
 
+import se.kth.id1212.taxoptimization.data_access.CSNData;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+
+import static java.lang.String.valueOf;
 
 /**
  *  Handles data related to the sessions and input.
@@ -14,17 +19,37 @@ public class Session {
     String session_id;
     String time;
     String location;
+    String email;
     List<Input> inputs = new ArrayList<>();
-    public Session(String session_id, String time, String location){
+    public Session(String session_id, String time, String location, String email) throws Exception {
         this.session_id = session_id;
         this.time = time;
         this.location = location;
-    }
-    public void updateInput(int start_capital, int profit_capital, int interest_rate, int years, double[][] yearly_value){
-        this.inputs.add(new Input(start_capital, profit_capital, interest_rate, years, yearly_value));
-    }
-    public void updateCSNInput(int total_loan, int interest_rate, int desired_payments){
+        this.email = email;
 
+        String[] query = {session_id, time, location, "chrome", email};
+        try{
+            CSNData.insertSession(query);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Adds new input with relevant data.
+     */
+    public void updateInput(int start_capital, int profit_capital, int interest_rate, int years, double[][] yearly_value) throws Exception {
+        this.inputs.add(new Input(start_capital, profit_capital, interest_rate, years, yearly_value, Integer.valueOf(this.session_id)));
+    }
+
+    /**
+     * Calculates the relevant data and adds the new input.
+     * @param total_loan The total loan from the user
+     * @param interest_rate The expected growth.
+     * @param desired_payments How much above the minimum the user wishes to pay.
+     * @throws Exception If something goes wrong.
+     */
+    public void updateCSNInput(int total_loan, int interest_rate, int desired_payments) throws Exception {
         double start = (total_loan*(0.04))/12;
         double other_start = (total_loan*(0.04))/12;
         int[][] yearly_value = new int[4][25];
@@ -61,7 +86,7 @@ public class Session {
             yearly_value[2][i] = 0;
             yearly_value[3][i] = (int)other_profit;
         }
-        this.inputs.add(new Input(total_loan, other_years, 25, years, interest_rate, desired_payments, yearly_value));
+        this.inputs.add(new Input(total_loan, other_years, 25, years, interest_rate, desired_payments, yearly_value,Integer.valueOf(this.session_id)));
     }
 
     /**
