@@ -176,10 +176,6 @@ public class TaxOptimizationApplication {
         try {
             user.createCSNInput(total_loan, csn_interest_rate, desired_payment);
             model.addAttribute("yearly_value", user.getYearlyCSNCapital());
-            int[][] yearly_value = user.getYearlyCSNCapital();
-            for (int j = 0; j < yearly_value[0].length; j++) {
-                System.out.println(yearly_value[0][j] + " " + yearly_value[1][j] + " " + yearly_value[2][j] + " " + yearly_value[3][j]);
-            }
             return "csnanswer";
         } catch(Exception e){
             e.printStackTrace();
@@ -202,11 +198,11 @@ public class TaxOptimizationApplication {
      * @param model The model for the HTML pages.
      * @return Returns the login.html page.
      */
-    /*@PostMapping("/error")
+    @PostMapping("/error")
     public String error(Model model){
         return "login";
     }
-*/
+
 
     /**
      * Calculates the difference.
@@ -226,8 +222,6 @@ public class TaxOptimizationApplication {
         }
         this.user.createInput(start_capital, profit_capital, interest_rate, years, yearly_value);
     }
-
-
 
     /**
      * Starts the application

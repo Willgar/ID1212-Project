@@ -27,11 +27,32 @@ public class User {
     String subscribe;
     List<Session> sessions = new ArrayList<>();
     Random rand = new Random();
+
+    /**
+     * The bare minimum of the User object.
+     * @param email The email of the user.
+     * @param password The password of the user.
+     * @throws Exception If something goes wrong.
+     */
     public User(String email, String password) throws Exception {
         this.email = email;
         this.password = password;
 
     }
+
+    /**
+     * The full User object.
+     * @param firstname The users first name.
+     * @param password The users password.
+     * @param email The users email.
+     * @param lastname The users last name.
+     * @param country The users country.
+     * @param city The users city.
+     * @param phone The users phone.
+     * @param gender The users gender.
+     * @param subscribe The users choice of subscription setting.
+     * @throws Exception If something goes wrong.
+     */
     public User(String firstname, String password, String email, String lastname, String country, String city, int phone, String gender, String subscribe) throws Exception {
         this.email = email;
         this.firstname = firstname;
@@ -56,29 +77,7 @@ public class User {
         String currentTime = sdf.format(dt);
         sessions.add(new Session(id, currentTime, city, email));
     }
-    /*public void updateUser(String firstname, String password, String email, String lastname, String country, String city, int phone, String gender, String subscribe) throws Exception {
-        this.email = email;
-        this.firstname = firstname;
-        this.password = password;
-        this.lastname = lastname;
-        this.country = country;
-        this.city = city;
-        this.phone = phone;
-        this.gender = gender;
-        this.subscribe = subscribe;
 
-        String[] query = {email, firstname, lastname, password, country, city, Integer.toString(phone), gender, subscribe};
-        CSNData.insertUser(query);
-
-        String id = valueOf(rand.nextInt(100000));
-        java.util.Date dt = new java.util.Date();
-        java.text.SimpleDateFormat sdf =
-                new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String currentTime = sdf.format(dt);
-        sessions.add(new Session(id, currentTime, city, email));
-
-
-    }*/
     /**
      * Gets the value of the Fund account
      * To be adjusted or removed
@@ -125,6 +124,11 @@ public class User {
         this.sessions.get(sessions.size()-1).updateCSNInput(total_loan, interest_rate, desired_payments);
     }
 
+    /**
+     * Compares to the database to see if the current user already exists.
+     * @return Returns true if the user exists or the offline mode is started, else false.
+     * @throws Exception Communication Failure is thrown if it can't connect and will let the user use in offline mode.
+     */
     public boolean userExists() throws Exception {
         try {
             if (CSNData.selectUser(this.email, this.password) != null) {

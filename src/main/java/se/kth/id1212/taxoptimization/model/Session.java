@@ -21,6 +21,15 @@ public class Session {
     String location;
     String email;
     List<Input> inputs = new ArrayList<>();
+
+    /**
+     * The session connected to the user.
+     * @param session_id The ID of the session, relevant for the database.
+     * @param time The current time when the session was started.
+     * @param location The city of the user.
+     * @param email The users email.
+     * @throws Exception If something goes wrong with SQL.
+     */
     public Session(String session_id, String time, String location, String email) throws Exception {
         this.session_id = session_id;
         this.time = time;

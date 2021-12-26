@@ -16,19 +16,38 @@ public class YearBasis {
     int yearly_profit;
     int yearly_average_extra;
     int yearly_profit_extra;
+
+    /**
+     * The yearly values for the Tax Calculator
+     * @param years_from_start The years from start
+     * @param ISK_capital The current capital of the ISK
+     * @param fund_account_capital The current capital of the fund account
+     * @param input_id The ID of the input, relevant for the database.
+     * @throws Exception If something goes wrong.
+     */
     public YearBasis(int years_from_start, int ISK_capital, int fund_account_capital, int input_id) throws Exception {
         this.years_from_start = years_from_start;
         this.ISK_capital = ISK_capital;
         this.fund_account_capital = fund_account_capital;
         this.capital_difference = Math.abs(ISK_capital-fund_account_capital);
         int[] query = {years_from_start, ISK_capital, fund_account_capital, capital_difference, input_id};
-        System.out.println(input_id);
         try{
             CSNData.insertYearBasis(query);
         }catch(Exception e){
             e.printStackTrace();
         }
     }
+
+    /**
+     * The yearly values for the CSN calculator.
+     * @param years_from_start The years from the start.
+     * @param yearly_average_minimum The current average minimum to pay.
+     * @param yearly_profit The current profit from investments.
+     * @param yearly_average_extra The current average minimum plus monthly extra to pay.
+     * @param yearly_profit_extra The current profit from investments.
+     * @param input_id The ID for the input, relevant for the database.
+     * @throws Exception If something goes wrong.
+     */
     public YearBasis(int years_from_start, int yearly_average_minimum, int yearly_profit, int yearly_average_extra, int yearly_profit_extra, int input_id) throws Exception {
         this.yearly_average_minimum = yearly_average_minimum;
         this.yearly_profit = yearly_profit;
