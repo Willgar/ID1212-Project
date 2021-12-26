@@ -33,7 +33,7 @@ public class TaxOptimizationApplication {
      * @param model The model for the HTML pages.
      * @return Returns the login.html page
      */
-    @RequestMapping({"/", "/error", "/calculator"})
+    @RequestMapping({"/", "/calculator"})
     public String login(Model model){
         return "login";
     }
@@ -199,11 +199,11 @@ public class TaxOptimizationApplication {
      * @param model The model for the HTML pages.
      * @return Returns the login.html page.
      */
-    @PostMapping("/error")
+    /*@PostMapping("/error")
     public String error(Model model){
         return "login";
     }
-
+*/
 
     /**
      * Calculates the difference.
