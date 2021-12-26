@@ -1,8 +1,7 @@
 package se.kth.id1212.taxoptimization.model;
 
-import se.kth.id1212.taxoptimization.data_access.CSNData;
+import se.kth.id1212.taxoptimization.data_access.DBHandler;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -65,7 +64,7 @@ public class User {
         this.subscribe = subscribe;
         String[] query = {email, firstname, lastname, password, country, city, Integer.toString(phone), gender, subscribe};
         try {
-            CSNData.insertUser(query);
+            DBHandler.insertUser(query);
         } catch(Exception e){
             e.printStackTrace();
             System.out.println("User already exists");
@@ -131,7 +130,7 @@ public class User {
      */
     public boolean userExists() throws Exception {
         try {
-            if (CSNData.selectUser(this.email, this.password) != null) {
+            if (DBHandler.selectUser(this.email, this.password) != null) {
                 String id = valueOf(rand.nextInt(100000));
                 java.util.Date dt = new java.util.Date();
                 java.text.SimpleDateFormat sdf =

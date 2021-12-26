@@ -1,6 +1,6 @@
 package se.kth.id1212.taxoptimization.model;
 
-import se.kth.id1212.taxoptimization.data_access.CSNData;
+import se.kth.id1212.taxoptimization.data_access.DBHandler;
 
 /**
  * A year by year object to compare all the growth
@@ -32,7 +32,7 @@ public class YearBasis {
         this.capital_difference = Math.abs(ISK_capital-fund_account_capital);
         int[] query = {years_from_start, ISK_capital, fund_account_capital, capital_difference, input_id};
         try{
-            CSNData.insertYearBasis(query);
+            DBHandler.insertYearBasis(query);
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -57,7 +57,7 @@ public class YearBasis {
         this.years_from_start = years_from_start;
         int[] query = {years_from_start, yearly_average_minimum, yearly_profit, yearly_average_extra, yearly_profit_extra, capital_difference, years_from_start, input_id};
         try{
-            CSNData.insertPayments(query);
+            DBHandler.insertPayments(query);
         }catch(Exception e){
             e.printStackTrace();
         }

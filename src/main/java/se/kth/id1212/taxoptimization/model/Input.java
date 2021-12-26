@@ -1,6 +1,6 @@
 package se.kth.id1212.taxoptimization.model;
 
-import se.kth.id1212.taxoptimization.data_access.CSNData;
+import se.kth.id1212.taxoptimization.data_access.DBHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +52,7 @@ public class Input {
 
         int[] query = {input_id, start_capital, profit_capital, interest_rate, fund_account_capital, ISK_account_capital, account_difference, session_id};
         try{
-            CSNData.insertTaxInput(query);
+            DBHandler.insertTaxInput(query);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -86,7 +86,7 @@ public class Input {
 
         int[] query = {input_id, total_loan, estimated_years, max_years, yearly_value[0][0], interest_rate, desired_payments, session_id};
         try{
-            CSNData.insertCSNInput(query);
+            DBHandler.insertCSNInput(query);
         } catch (Exception e){
             e.printStackTrace();
         }

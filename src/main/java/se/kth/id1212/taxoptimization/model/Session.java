@@ -1,11 +1,10 @@
 package se.kth.id1212.taxoptimization.model;
 
 
-import se.kth.id1212.taxoptimization.data_access.CSNData;
+import se.kth.id1212.taxoptimization.data_access.DBHandler;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import static java.lang.String.valueOf;
 
@@ -38,7 +37,7 @@ public class Session {
 
         String[] query = {session_id, time, location, "chrome", email};
         try{
-            CSNData.insertSession(query);
+            DBHandler.insertSession(query);
         }catch (Exception e){
             e.printStackTrace();
         }

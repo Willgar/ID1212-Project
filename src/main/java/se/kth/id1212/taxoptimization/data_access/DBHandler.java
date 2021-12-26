@@ -10,7 +10,7 @@ import java.sql.*;
  * The Database Layer file, responsible for handling all interactions with the database.
  * @author William Axbrink
  */
-public class CSNData {
+public class DBHandler {
     /**
      * Inserts data into the database table User.
      * @param query The data to be inserted.
