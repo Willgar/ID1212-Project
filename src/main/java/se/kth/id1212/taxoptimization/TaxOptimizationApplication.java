@@ -25,7 +25,7 @@ import java.util.Arrays;
 @Controller
 @SpringBootApplication
 public class TaxOptimizationApplication {
-    User user;
+    User user = null;
     /**
      * The front page of the website, so that the user can log in.
      * If a user goes straight to the calculator without logging in, they will be redirected to the login page.
@@ -33,9 +33,22 @@ public class TaxOptimizationApplication {
      * @param model The model for the HTML pages.
      * @return Returns the login.html page
      */
-    @RequestMapping({"/", "/calculator"})
+    @RequestMapping("/")
     public String login(Model model){
-        return "login";
+            return "login";
+    }
+
+    /**
+     * If the user is already logged in, ie the User object exists, then the user can enter the calculator
+     * @param model The model for the HTML pages.
+     * @return Either the calculator.html or the login.html
+     */
+    @RequestMapping("/calculator")
+    public String loggedInCalculator(Model model){
+        if(user!=null)
+            return "calculator";
+        else
+            return "login";
     }
 
     /**
@@ -55,7 +68,7 @@ public class TaxOptimizationApplication {
             if(user.userExists())
                 return "calculator";
             else {
-                //return "calculator";
+                this.user = null;
                 return "signup";       //Change to this return when database is up and running
             }
         }catch (Exception e){
@@ -110,10 +123,10 @@ public class TaxOptimizationApplication {
      * @return Returns the answer.html page with the calculated value.
      */
     @PostMapping("/answer")
-    public String answer(@RequestParam() int start_capital,
-                         @RequestParam() int profit_capital,
-                         @RequestParam() int interest_rate,
-                         @RequestParam() int years,Model model){
+    public String answer(@RequestParam(defaultValue = "0") int start_capital,
+                         @RequestParam(defaultValue = "0") int profit_capital,
+                         @RequestParam(defaultValue = "7") int interest_rate,
+                         @RequestParam(defaultValue = "5") int years,Model model){
         try { //Connects to a local API server to make the calculations
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder()
@@ -170,9 +183,9 @@ public class TaxOptimizationApplication {
      * @return Returns the csnanswer.html page with the calculated values.
      */
     @PostMapping("/csnanswer")
-    public String answer(@RequestParam() int total_loan,
-                         @RequestParam() int csn_interest_rate,
-                         @RequestParam() int desired_payment,Model model){
+    public String answer(@RequestParam(defaultValue = "0") int total_loan,
+                         @RequestParam(defaultValue = "7") int csn_interest_rate,
+                         @RequestParam(defaultValue = "0") int desired_payment,Model model){
         try {
             user.createCSNInput(total_loan, csn_interest_rate, desired_payment);
             model.addAttribute("yearly_value", user.getYearlyCSNCapital());
