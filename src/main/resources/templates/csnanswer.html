@@ -118,19 +118,34 @@
         .wrapper h3{
             text-align: center;
         }
+        .button{
+            padding:20px;
+            margin-top: 10px;
+            border-radius: 10px;
+            background-color: lightskyblue;
+            display: inline-block;
+        }
+        .button hover{
+            background-color: midnightblue;
+        }
     </style>
 </head>
 <body>
 <div class="wrapper">
     <h3>Calculation </h3>
     <div>
-        <h3 >Saved from investing: <span id="diff"></span> </h3>
-    </div>
-    <h3>Payment to CSN</h3>
-    <div id="csn_div"></div>
+        <div>
+            <h3 >Saved from investing: <span id="diff"></span> </h3>
+        </div>
+        <h3>Payment to CSN</h3>
+        <div id="csn_div"></div>
 
-    <h3>Investing Profit after CSN Payment</h3>
-    <div id="isk_div"></div>
+        <h3>Investing Profit after CSN Payment</h3>
+        <div id="isk_div"></div>
+        <div class="button"><a href="/calculator">Back to Calculator</a></div>
+    </div>
+
+
 </div>
 </body>
 </html>
