@@ -89,7 +89,7 @@ public class TaxOptimizationApplication {
                            @RequestParam() String city,
                            @RequestParam() int phone,
                            @RequestParam() String gender,
-                           @RequestParam() String subscribe,
+                           @RequestParam(value = "subscribe",required = false, defaultValue = "off") String subscribe,
                            Model model) throws Exception{
         //Create a new user which is added to the DB.
         if(user != null){

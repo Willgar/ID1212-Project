@@ -5,6 +5,7 @@ import se.kth.id1212.taxoptimization.model.Session;
 import se.kth.id1212.taxoptimization.model.User;
 
 import java.sql.*;
+import java.util.Objects;
 
 /**
  * The Database Layer file, responsible for handling all interactions with the database.
@@ -20,7 +21,7 @@ public class DBHandler {
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/project", SECRETS.DATABASEUSER, SECRETS.DATABASEPASS);
-            String newquery = "INSERT INTO user (email, first_name, last_name, password, country, city, mobile_number, gender, subscribe_newsletter) values ('" + query[0] + "', '" + query[1] + "','" + query[2] + "','" + query[3] + "','" + query[4] + "','" + query[5] + "','" + query[6] + "','" + query[7] + "','" + (query[8] == "on" ? 1 : 0) + "');";
+            String newquery = "INSERT INTO user (email, first_name, last_name, password, country, city, mobile_number, gender, subscribe_newsletter) values ('" + query[0] + "', '" + query[1] + "','" + query[2] + "','" + query[3] + "','" + query[4] + "','" + query[5] + "','" + query[6] + "','" + query[7] + "','" + (Objects.equals(query[8], "on") ? 1 : 0) + "');";
             Statement stmt = con.createStatement();
             stmt.executeUpdate(newquery);
             con.close();
